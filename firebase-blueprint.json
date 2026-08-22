@@ -1,0 +1,117 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Holds the member specific information like loyalty points and membership status",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "loyaltyPoints": {
+          "type": "integer"
+        },
+        "membershipTier": {
+          "type": "string",
+          "enum": ["Basic", "Plus", "Premium"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "loyaltyPoints", "membershipTier", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Represents an online store purchase of networking hardware or software subscriptions",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "paymentMethod": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array"
+        },
+        "total": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "processing", "completed", "cancelled"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "name", "phone", "address", "paymentMethod", "items", "total", "status", "createdAt"]
+    },
+    "Ticket": {
+      "title": "Ticket",
+      "description": "Strategic technical support query or priority assistance request",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "operationalId": {
+          "type": "string"
+        },
+        "sector": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["open", "investigating", "resolved", "closed"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "name", "email", "phone", "operationalId", "sector", "description", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/userProfiles/{userId}": {
+      "schema": "UserProfile",
+      "description": "Saved profile and loyalty metrics of authenticated ORIBISERV customers"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Store checkouts containing detailed item specifications and shipping details"
+    },
+    "/tickets/{ticketId}": {
+      "schema": "Ticket",
+      "description": "Core technical support tickets processed by Oribi engineer queue"
+    }
+  }
+}

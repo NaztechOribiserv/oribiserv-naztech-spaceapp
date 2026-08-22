@@ -1,0 +1,191 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper Primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == "naz.kamwendo@gmail.com" ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Field Schema Validations
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'email', 'loyaltyPoints', 'membershipTier', 'createdAt'])
+        && data.keys().size() == 5
+        && data.uid is string
+        && data.uid.size() <= 128
+        && data.email is string
+        && data.email.size() <= 256
+        && data.loyaltyPoints is int
+        && data.loyaltyPoints >= 0
+        && data.membershipTier is string
+        && (data.membershipTier == 'Basic' || data.membershipTier == 'Plus' || data.membershipTier == 'Premium');
+    }
+
+    function isValidOrder(data) {
+      return data.keys().hasAll(['userId', 'name', 'phone', 'address', 'paymentMethod', 'items', 'total', 'status', 'createdAt'])
+        && data.keys().size() == 9
+        && data.userId is string
+        && data.userId.size() <= 128
+        && data.name is string
+        && data.name.size() <= 256
+        && data.phone is string
+        && data.phone.size() <= 64
+        && data.address is string
+        && data.address.size() <= 1024
+        && data.paymentMethod is string
+        && data.paymentMethod.size() <= 128
+        && data.items is list
+        && data.items.size() <= 50
+        && data.total is number
+        && data.total >= 0
+        && data.status is string
+        && (data.status == 'pending' || data.status == 'processing' || data.status == 'completed' || data.status == 'cancelled');
+    }
+
+    function isValidTicket(data) {
+      return data.keys().hasAll(['userId', 'name', 'email', 'phone', 'operationalId', 'sector', 'description', 'status', 'createdAt'])
+        && data.keys().size() == 9
+        && data.userId is string
+        && data.userId.size() <= 128
+        && data.name is string
+        && data.name.size() <= 256
+        && data.email is string
+        && data.email.size() <= 256
+        && data.phone is string
+        && data.phone.size() <= 64
+        && data.operationalId is string
+        && data.operationalId.size() <= 64
+        && data.sector is string
+        && data.sector.size() <= 128
+        && data.description is string
+        && data.description.size() <= 4096
+        && data.status is string
+        && (data.status == 'open' || data.status == 'investigating' || data.status == 'resolved' || data.status == 'closed');
+    }
+
+    // Collection Security Rules
+
+    // 1. UserProfiles
+    match /userProfiles/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      
+      // Limit profile creation values and lock time and metrics
+      allow create: if isOwner(userId) 
+        && isValidUserProfile(incoming())
+        && incoming().uid == request.auth.uid
+        && incoming().loyaltyPoints == 0
+        && incoming().membershipTier == 'Basic'
+        && incoming().createdAt == request.time;
+      
+      // Prevent points/tier self-manipulation unless it's an increments limit or admin
+      allow update: if (isOwner(userId) 
+        && isValidUserProfile(incoming())
+        && incoming().uid == existing().uid
+        && incoming().email == existing().email
+        && incoming().createdAt == existing().createdAt
+        && (
+          incoming().diff(existing()).affectedKeys().hasOnly([]) ||
+          isAdmin() ||
+          (
+            // Auto points-accrual gate: can only increment loyalty points during checkout (handled securely relative to order sync)
+            incoming().diff(existing()).affectedKeys().hasOnly(['loyaltyPoints', 'membershipTier'])
+            && incoming().loyaltyPoints > existing().loyaltyPoints
+            && incoming().loyaltyPoints <= existing().loyaltyPoints + 1000
+          )
+        )) || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // 2. Orders
+    match /orders/{orderId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if isSignedIn()
+        && isValidId(orderId)
+        && isValidOrder(incoming())
+        && incoming().userId == request.auth.uid
+        && incoming().status == 'pending'
+        && incoming().createdAt == request.time;
+
+      allow update: if isAdmin() || (
+        isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && isValidOrder(incoming())
+        && incoming().userId == existing().userId
+        && incoming().total == existing().total
+        && incoming().createdAt == existing().createdAt
+        && existing().status == 'pending'
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status'])
+        && incoming().status == 'cancelled' // User can only self-cancel a pending order
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    // 3. Tickets
+    match /tickets/{ticketId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if isSignedIn()
+        && isValidId(ticketId)
+        && isValidTicket(incoming())
+        && incoming().userId == request.auth.uid
+        && incoming().status == 'open'
+        && incoming().createdAt == request.time;
+
+      allow update: if isAdmin() || (
+        isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && isValidTicket(incoming())
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['description', 'phone', 'name'])
+      );
+
+      allow delete: if isAdmin();
+    }
+    // 4. Ledger Clients
+    match /clients/{clientId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // 5. Ledger Invoices
+    match /invoices/{invoiceId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ORIBISERV | Fix Your IT. Speed Up Your Business.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              brand: {
+                50: '#f0fdfa',
+                100: '#ccfbf1',
+                500: '#5dd9ea',
+                600: '#0d9488',
+                700: '#0f766e',
+                800: '#115e59',
+                900: '#0e2134',
+                950: '#04101a',
+              },
+              accent: {
+                500: '#a855f7',
+                600: '#9333ea',
+                700: '#7e22ce',
+              },
+              surface: '#0e2134',
+              text: '#e7f0fa',
+              muted: '#9eb5c9',
+            },
+            boxShadow: {
+              'retro': '8px 8px 0px 0px rgba(0,0,0,1)',
+              'retro-brand': '8px 8px 0px 0px rgba(93,217,234,0.3)',
+              'retro-hover': '12px 12px 0px 0px rgba(0,0,0,1)',
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #04101a 0%, #081c2f 100%); color: #e7f0fa; }
+      h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; }
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+      
+      .brutal-border { border: 4px solid #04101a; }
+      .brutal-card { 
+        background: #0e2134; 
+        border: 3px solid rgba(255,255,255,0.1); 
+        box-shadow: 10px 10px 0px rgba(0,0,0,1);
+        transition: all 0.2s ease;
+      }
+      .brutal-card:hover {
+        transform: translate(-4px, -4px);
+        box-shadow: 16px 16px 0px rgba(93,217,234,0.2);
+      }
+
+      .anime-gradient {
+        background: linear-gradient(135deg, #0e2134 0%, #04101a 100%);
+        border-left: 8px solid #5dd9ea;
+      }
+
+      /* Grainy Texture Overlay */
+      .grainy {
+        position: relative;
+      }
+      .grainy::after {
+        content: "";
+        position: fixed;
+        top: -100%;
+        left: -100%;
+        width: 300%;
+        height: 300%;
+        background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        opacity: 0.05;
+        pointer-events: none;
+        z-index: 9999;
+        animation: noise 8s steps(10) infinite;
+      }
+
+      @keyframes noise {
+        0%, 100% { transform: translate(0, 0); }
+        10% { transform: translate(-5%, -10%); }
+        20% { transform: translate(-15%, 5%); }
+        30% { transform: translate(7%, -25%); }
+        40% { transform: translate(-5%, 25%); }
+        50% { transform: translate(-15%, 10%); }
+        60% { transform: translate(15%, 0); }
+        70% { transform: translate(0, 15%); }
+        80% { transform: translate(3%, 35%); }
+        90% { transform: translate(-10%, 10%); }
+      }
+
+      /* Custom scrollbar for chat */
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+      .glass-card {
+        background: rgba(2, 44, 34, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .circuit-bg {
+        background-image: radial-gradient(#14b8a6 0.5px, transparent 0.5px);
+        background-size: 20px 20px;
+      }
+      .glow-orb {
+        box-shadow: 0 0 60px 20px rgba(20, 184, 166, 0.2);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-brand-950 text-brand-50 antialiased grainy">
+    <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+</html>

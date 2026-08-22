@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Oribiserv</string>
+    <string name="title_activity_main">Oribiserv</string>
+    <string name="package_name">com.oribiserv.app</string>
+    <string name="custom_url_scheme">com.oribiserv.app</string>
+</resources>

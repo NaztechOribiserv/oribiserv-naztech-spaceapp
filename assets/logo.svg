@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OribiServ logo">
+  <defs>
+    <linearGradient id="ring" x1="86" y1="62" x2="433" y2="447" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#805AF8"/>
+      <stop offset="1" stop-color="#6145EF"/>
+    </linearGradient>
+    <linearGradient id="coin" x1="122" y1="90" x2="382" y2="407" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2D6B78"/>
+      <stop offset="1" stop-color="#0B2234"/>
+    </linearGradient>
+    <linearGradient id="letter" x1="257" y1="130" x2="257" y2="334" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8DE8F1"/>
+      <stop offset="1" stop-color="#35BBCF"/>
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="224" r="192" fill="url(#ring)"/>
+  <circle cx="256" cy="224" r="178" fill="url(#coin)"/>
+  <path d="M160 334V114H206L307 254V114H353V334H307L206 195V334H160Z" fill="url(#letter)"/>
+  <text x="256" y="470" text-anchor="middle" fill="#020617" font-size="72" font-family="Inter, Arial, sans-serif" font-weight="800" letter-spacing="5">ORIBISERV</text>
+</svg>
