@@ -58,11 +58,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
       {/* Top Bar - Professional Contact Info */}
       <div className="bg-[#050f1a]/90 backdrop-blur-md text-white text-[0.65rem] py-2 px-4 flex flex-col md:flex-row justify-between items-center gap-2 z-50 border-b border-white/5 uppercase tracking-widest font-bold">
         <div className="flex items-center space-x-6">
-          <span className="opacity-70 flex items-center"><LucidePhone size={10} className="mr-1.5 text-brand-500" /> Landline: <a href="tel:0878213442" className="text-brand-400 hover:text-brand-300 transition-colors ml-1">087 821 3442</a></span>
           <span className="opacity-70 flex items-center"><LucideMessageCircle size={10} className="mr-1.5 text-brand-500" /> WhatsApp: <a href="https://wa.me/27798983375" target="_blank" rel="noopener noreferrer" className="text-brand-400 hover:text-brand-300 transition-colors ml-1">079 898 3375</a></span>
         </div>
         <div className="flex items-center space-x-6">
-          <span className="opacity-70">Email: <a href="mailto:info@oribiserv.co.za" className="hover:text-brand-300 transition-colors">info@oribiserv.co.za</a></span>
+          <span className="opacity-70">Email: <a href="mailto:info@naztech.space" className="hover:text-brand-300 transition-colors">info@naztech.space</a></span>
           {user && (
             <button onClick={handleLogout} className="flex items-center text-red-400 hover:text-red-300 transition-colors">
               <LucideLogOut size={12} className="mr-1" /> Logout
@@ -103,7 +102,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
               <div className="h-8 w-px bg-white/10 mx-3" />
               
               <a 
-                href="https://naztech.space/doli/index.php?mainmenu=home&leftmenu=home"
+                href="https://naztech.space/crm"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl text-[0.65rem] font-bold uppercase tracking-widest text-brand-500 hover:bg-brand-500/10 transition-all duration-300 border border-brand-500/20"
@@ -158,7 +157,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
             ))}
             
             <a 
-              href="https://naztech.space/doli/index.php?mainmenu=home&leftmenu=home"
+              href="https://naztech.space/crm"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest text-brand-500 bg-brand-500/10 border border-brand-500/20"
@@ -239,10 +238,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
               </p>
               <div className="flex flex-col space-y-4">
                 <div className="text-brand-500 font-bold flex items-center hover:text-brand-400 transition-colors cursor-pointer">
-                  <LucideGlobe size={18} className="mr-3" /> info@oribiserv.co.za
-                </div>
-                <div className="text-brand-500 font-bold flex items-center hover:text-brand-400 transition-colors cursor-pointer">
-                  <LucidePhone size={18} className="mr-3" /> 087 821 3442
+                  <LucideGlobe size={18} className="mr-3" /> info@naztech.space
                 </div>
               </div>
             </div>

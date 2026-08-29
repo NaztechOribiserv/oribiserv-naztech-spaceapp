@@ -69,7 +69,7 @@ export const BalanceCheck: React.FC = () => {
               <h3 className="text-xl font-bold text-white mb-4">Billing & Invoices</h3>
               <p className="text-muted text-xs mb-8">View your payment history and download invoices via our secure CRM.</p>
               <a 
-                href="https://naztech.space/doli/index.php?mainmenu=home&leftmenu=home"
+                href="https://naztech.space/crm"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 bg-brand-500 text-[#032137] font-bold rounded-xl flex items-center justify-center space-x-2 hover:bg-brand-600 transition-all"

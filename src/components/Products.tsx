@@ -120,7 +120,7 @@ export const Products: React.FC<ProductsProps> = ({ onCheckCoverage }) => {
               </ul>
               
               <a 
-                href="https://naztech.space/doli/index.php?mainmenu=home&leftmenu=home"
+                href="https://naztech.space/crm"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`mt-12 w-full py-5 px-8 rounded-2xl shadow-xl text-sm font-bold transition-all active:scale-95 flex items-center justify-center ${pkg.popular ? 'bg-brand-500 text-[#032137] hover:bg-brand-600 shadow-brand-500/20' : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'}`}
@@ -148,7 +148,7 @@ export const Products: React.FC<ProductsProps> = ({ onCheckCoverage }) => {
                 </div>
             </div>
             <a 
-                href="https://naztech.space/doli/index.php?mainmenu=home&leftmenu=home"
+                href="https://naztech.space/crm"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="whitespace-nowrap bg-brand-500 text-[#032137] px-12 py-5 rounded-2xl font-bold shadow-2xl hover:bg-brand-600 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center"
