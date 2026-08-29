@@ -62,9 +62,7 @@ export const SupportHub: React.FC = () => {
               </button>
 
               <div className="pt-4 border-t border-white/5">
-                <a href="tel:0878213442" className="flex items-center text-[0.65rem] text-muted hover:text-white transition-colors">
-                  <LucidePhone size={12} className="mr-2" /> Urgent? Call 087 821 3442
-                </a>
+               <p className="text-[0.65rem] text-muted uppercase tracking-widest font-bold">For additional support, use WhatsApp</p>
               </div>
             </div>
           </motion.div>

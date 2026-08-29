@@ -178,7 +178,7 @@ export const ITServices: React.FC = () => {
              <a href="tel:0878213442" className="inline-flex items-center px-10 py-5 border border-transparent text-sm font-bold rounded-2xl shadow-2xl text-[#032137] bg-brand-500 hover:bg-brand-600 transition-all transform hover:scale-105 uppercase tracking-widest">
                Call Strategist
              </a>
-             <a href="https://naztech.space/doli/index.php?mainmenu=home&leftmenu=home" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-10 py-5 border border-brand-500/20 shadow-xl text-sm font-bold rounded-2xl text-brand-500 bg-brand-500/10 hover:bg-brand-500/20 transition-all transform hover:scale-105 uppercase tracking-widest">
+             <a href="https://naztech.space/crm" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-10 py-5 border border-brand-500/20 shadow-xl text-sm font-bold rounded-2xl text-brand-500 bg-brand-500/10 hover:bg-brand-500/20 transition-all transform hover:scale-105 uppercase tracking-widest">
                Client Portal
              </a>
           </div>
