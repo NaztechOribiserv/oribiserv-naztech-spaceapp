@@ -51,30 +51,35 @@ export const Logo: React.FC<LogoProps> = ({ className = "w-14 h-14", size }) => 
         }}
       />
 
-      {/* Main logo image with hover and rotation */}
+      {/* Main logo image (static) with bold styling and hover tilt */}
       <motion.img
         src="/assets/MainLogo.png"
         alt="Main Logo"
         className="w-full h-full object-contain rounded-full"
-        whileHover={{
-          scale: 1.12,
-          rotateZ: [0, 6, -6, 0],
-          filter: 'brightness(1.25) drop-shadow(0 8px 30px rgba(14,165,255,0.35))',
+        style={{
+          border: '3px solid rgba(14,165,255,0.12)',
+          boxShadow: '0 10px 40px rgba(2,6,23,0.6), 0 0 40px rgba(14,165,255,0.08)'
         }}
-        animate={{
-          rotateZ: [0, 360],
+        whileHover={{
+          scale: 1.08,
+          rotateZ: [0, 5, -5, 0],
+          filter: 'brightness(1.18) drop-shadow(0 12px 40px rgba(14,165,255,0.3))',
         }}
         transition={{
-          rotateZ: {
-            duration: 28,
-            repeat: Infinity,
-            ease: 'linear',
-          },
-          hover: {
-            duration: 0.28,
-          },
+          hover: { duration: 0.28 },
         }}
       />
+
+      {/* Orbiting spark */}
+      <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <motion.div
+          style={{ width: '160%', height: '160%', position: 'relative' }}
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+        >
+          <div style={{ position: 'absolute', top: '6%', left: '50%', transform: 'translateX(-50%)', width: 10, height: 10, borderRadius: 9999, background: 'radial-gradient(circle, #ffffff, #7dd3fc)', boxShadow: '0 0 12px rgba(125,211,252,0.9), 0 0 24px rgba(14,165,255,0.25)' }} />
+        </motion.div>
+      </motion.div>
 
       {/* Inner glowing core */}
       <motion.div
