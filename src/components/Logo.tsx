@@ -17,58 +17,61 @@ export const Logo: React.FC<LogoProps> = ({ className = "w-14 h-14", size }) => 
     >
       {/* Outer glowing ring */}
       <motion.div
-        className="absolute inset-0 rounded-full"
+        className="absolute inset-0 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(14, 165, 255, 0.3) 0%, transparent 70%)',
+          background: 'conic-gradient(from 180deg at 50% 50%, rgba(99,102,241,0.15), rgba(14,165,255,0.18), rgba(124,58,237,0.12))',
+          mixBlendMode: 'screen',
         }}
         animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.6, 0.3],
+          rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360],
+          opacity: [0.18, 0.36, 0.18],
+        }}
+        transition={{
+          rotate: { duration: 12, repeat: Infinity, ease: 'linear' },
+          opacity: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
+        }}
+      />
+
+      {/* Pulsing glow ring */}
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        style={{ border: '2px solid rgba(14,165,255,0.15)' }}
+        animate={{
+          boxShadow: [
+            '0 0 8px rgba(14, 165, 255, 0.12)',
+            '0 0 28px rgba(14, 165, 255, 0.45)',
+            '0 0 8px rgba(14, 165, 255, 0.12)'
+          ],
+          scale: [1, 1.035, 1],
         }}
         transition={{
           duration: 3,
           repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-
-      {/* Pulsing glow effect */}
-      <motion.div
-        className="absolute inset-0 rounded-full border border-blue-400/40"
-        animate={{
-          boxShadow: [
-            '0 0 10px rgba(14, 165, 255, 0.3)',
-            '0 0 30px rgba(14, 165, 255, 0.8)',
-            '0 0 10px rgba(14, 165, 255, 0.3)',
-          ],
-        }}
-        transition={{
-          duration: 2.5,
-          repeat: Infinity,
-          ease: 'easeInOut',
+          ease: 'easeInOut'
         }}
       />
 
       {/* Main logo image with hover and rotation */}
       <motion.img
-        src="/assets/NaztechLogo.png"
-        alt="Naztech"
+        src="/assets/MainLogo.png"
+        alt="Main Logo"
         className="w-full h-full object-contain rounded-full"
         whileHover={{
-          scale: 1.08,
-          filter: 'brightness(1.2)',
+          scale: 1.12,
+          rotateZ: [0, 6, -6, 0],
+          filter: 'brightness(1.25) drop-shadow(0 8px 30px rgba(14,165,255,0.35))',
         }}
         animate={{
           rotateZ: [0, 360],
         }}
         transition={{
           rotateZ: {
-            duration: 20,
+            duration: 28,
             repeat: Infinity,
             ease: 'linear',
           },
           hover: {
-            duration: 0.3,
+            duration: 0.28,
           },
         }}
       />
