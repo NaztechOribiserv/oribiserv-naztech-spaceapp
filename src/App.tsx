@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Layout as PortalLayout } from './components/Layout';
 import { Hero } from './components/Hero';
 import { Products } from './components/Products';
@@ -248,6 +249,7 @@ function App() {
   return (
     <AuthProvider>
       <AppContent />
+      <Analytics />
     </AuthProvider>
   );
 }
