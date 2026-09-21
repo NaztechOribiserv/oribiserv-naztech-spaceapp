@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KasiRooms — Find Affordable, Secure Backrooms Near You | South Africa</title>
+  <meta name="description" content="KasiRooms is South Africa's low-data backroom rental marketplace. Find verified, affordable backrooms in Soweto, Standerton, Secunda & more. List your yard space for free. POPIA-compliant & secure." />
+  <meta name="theme-color" content="#2A0A4A" />
+  <meta property="og:title" content="KasiRooms — Find Affordable, Secure Backrooms Near You" />
+  <meta property="og:description" content="Verified backrooms from R1,500/month. Low-data browsing. Chat securely without sharing your number. POPIA-compliant." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_ZA" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232A0A4A'/><path d='M50 20 22 44h8v32h16V58h8v18h16V44h8z' fill='%23D4AF37'/></svg>" />
+
+  <!-- Performance: preconnect to CDNs (low-data first) -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link rel="preconnect" href="https://unpkg.com" />
+
+  <!-- Fonts: premium + highly legible for all ages -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via official Play CDN — zero build steps -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            kasi: {
+              purple: {
+                950: '#160826',
+                900: '#2A0A4A',
+                800: '#3B1470',
+                700: '#4C1D95',
+                600: '#5B21B6',
+                500: '#7C3AED',
+                100: '#EDE9FE',
+                50:  '#F5F1FF',
+              },
+              gold: {
+                DEFAULT: '#C9A227',
+                light: '#E8C547',
+                pale: '#FFF6D6',
+                dark: '#8C6A0A',
+              },
+              cream: '#FAF7FF',
+            }
+          },
+          boxShadow: {
+            'card': '0 10px 40px -12px rgba(42,10,74,0.25)',
+            'gold': '0 8px 24px -6px rgba(201,162,39,0.55)',
+            'pop': '0 24px 60px -12px rgba(22,8,38,0.45)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #FAF7FF; }
+    h1,h2,h3,h4 { font-family: 'Sora', sans-serif; }
+    ::selection { background: #C9A227; color: #2A0A4A; }
+
+    .gold-text-gradient {
+      background: linear-gradient(100deg, #FFF6D6 0%, #E8C547 35%, #C9A227 60%, #FFF0B8 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-pattern {
+      background-image:
+        radial-gradient(rgba(232,197,71,0.22) 1.5px, transparent 1.5px),
+        radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 28px 28px, 18px 18px;
+    }
+    .card-img { transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+    .listing-card:hover .card-img { transform: scale(1.06); }
+    .listing-card { transition: transform .25s ease, box-shadow .25s ease, opacity .25s ease; }
+    .listing-card.hidden-card { display: none; }
+
+    .tab-btn { transition: all .25s ease; }
+    .tab-btn.active {
+      background: #2A0A4A; color: #fff;
+      box-shadow: 0 10px 24px -8px rgba(42,10,74,.6);
+    }
+    .tab-btn:not(.active):hover { background: #EDE9FE; }
+
+    /* Data-saver mode: pause images for ultra low-data browsing */
+    body.data-saver .card-img { display: none; }
+    body.data-saver .img-fallback { display: flex !important; }
+
+    /* Chat popup animation */
+    #chatPanel { transform-origin: bottom right; transition: all .3s cubic-bezier(.2,.8,.2,1); }
+    #chatPanel.chat-hidden { opacity: 0; transform: scale(.9) translateY(16px); pointer-events: none; }
+
+    /* Toast */
+    .toast { animation: toastIn .35s cubic-bezier(.2,.8,.2,1); }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: none; } }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(24px); transition: all .7s cubic-bezier(.2,.8,.2,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* Custom scrollbar for chat */
+    #chatMessages::-webkit-scrollbar { width: 5px; }
+    #chatMessages::-webkit-scrollbar-thumb { background: #C9A227; border-radius: 99px; }
+
+    /* File input styling */
+    input[type="file"]::file-selector-button {
+      background: #2A0A4A; color: #fff; border: none; border-radius: 10px;
+      padding: 10px 16px; font-weight: 600; font-size: 13px; cursor: pointer; margin-right: 12px;
+    }
+
+    /* FAQ */
+    .faq-answer { display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-chevron { transition: transform .3s ease; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+
+  <!-- SEO structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "KasiRooms",
+    "description": "South Africa's low-data backroom rental marketplace.",
+    "inLanguage": "en-ZA",
+    "potentialAction": { "@type": "SearchAction", "target": "https://kasirooms.co.za/?search={query}", "query-input": "required name=query" }
+  }
+  </script>
+</head>
+
+<body class="text-kasi-purple-950 antialiased">
+
+  <!-- ═══════════ TOP UTILITY BAR ═══════════ -->
+  <div class="bg-kasi-purple-950 text-white text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
+      <p class="flex items-center gap-2 truncate">
+        <i data-lucide="shield-check" class="w-4 h-4 text-kasi-gold-light shrink-0"></i>
+        <span class="truncate"><strong class="text-kasi-gold-light">POPIA Compliant</strong> <span class="hidden sm:inline">· Verified landlords · No agent fees</span></span>
+      </p>
+      <button id="dataSaverToggle" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 rounded-full px-3 py-1 font-semibold transition shrink-0" aria-pressed="false">
+        <i data-lucide="leaf" class="w-3.5 h-3.5 text-kasi-gold-light"></i>
+        <span id="dataSaverLabel">Data Saver: Off</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════ 1. NAVIGATION BAR (sticky) ═══════════ -->
+  <header id="siteNav" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-kasi-purple-100 transition-shadow">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 h-[68px] flex items-center justify-between gap-4" aria-label="Main navigation">
+      <!-- Logo -->
+      <a href="#top" class="flex items-center gap-2.5 shrink-0">
+        <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-kasi-purple-900 to-kasi-purple-700 flex items-center justify-center shadow-card">
+          <i data-lucide="house" class="w-5 h-5 text-kasi-gold-light"></i>
+        </span>
+        <span class="font-display font-800 leading-none">
+          <span class="block text-[19px] font-extrabold text-kasi-purple-900 tracking-tight">Kasi<span class="text-kasi-gold">Rooms</span></span>
+          <span class="block text-[10px] font-semibold tracking-[0.22em] uppercase text-kasi-purple-700/70">Backrooms · Mzansi</span>
+        </span>
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-8 text-[15px] font-semibold text-kasi-purple-900">
+        <a href="#find" class="hover:text-kasi-gold-dark transition flex items-center gap-1.5"><i data-lucide="search" class="w-4 h-4"></i>Find a Room</a>
+        <a href="#list" class="hover:text-kasi-gold-dark transition flex items-center gap-1.5"><i data-lucide="key-round" class="w-4 h-4"></i>List Your Room</a>
+        <a href="#how" class="hover:text-kasi-gold-dark transition flex items-center gap-1.5"><i data-lucide="circle-help" class="w-4 h-4"></i>How it Works</a>
+      </div>
+
+      <!-- CTA + mobile toggle -->
+      <div class="flex items-center gap-3">
+        <a href="#list" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-kasi-purple-900 to-kasi-purple-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-card hover:shadow-pop hover:-translate-y-0.5 transition border border-kasi-gold/40">
+          <i data-lucide="sparkles" class="w-4 h-4 text-kasi-gold-light"></i>
+          Join Free — List Today
+        </a>
+        <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-xl bg-kasi-purple-50 flex items-center justify-center text-kasi-purple-900" aria-label="Open menu" aria-expanded="false">
+          <i data-lucide="menu" class="w-5 h-5" id="mobileMenuIconOpen"></i>
+          <i data-lucide="x" class="w-5 h-5 hidden" id="mobileMenuIconClose"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-kasi-purple-100 bg-white px-4 py-4 space-y-1">
+      <a href="#find" class="mobile-link flex items-center gap-3 px-3 py-3 rounded-xl font-semibold hover:bg-kasi-purple-50"><i data-lucide="search" class="w-5 h-5 text-kasi-purple-700"></i>Find a Room</a>
+      <a href="#list" class="mobile-link flex items-center gap-3 px-3 py-3 rounded-xl font-semibold hover:bg-kasi-purple-50"><i data-lucide="key-round" class="w-5 h-5 text-kasi-purple-700"></i>List Your Room</a>
+      <a href="#how" class="mobile-link flex items-center gap-3 px-3 py-3 rounded-xl font-semibold hover:bg-kasi-purple-50"><i data-lucide="circle-help" class="w-5 h-5 text-kasi-purple-700"></i>How it Works</a>
+      <a href="#security" class="mobile-link flex items-center gap-3 px-3 py-3 rounded-xl font-semibold hover:bg-kasi-purple-50"><i data-lucide="shield-check" class="w-5 h-5 text-kasi-purple-700"></i>Trust &amp; POPIA Safety</a>
+      <a href="#list" class="mobile-link mt-2 flex items-center justify-center gap-2 bg-kasi-purple-900 text-white font-bold px-5 py-3.5 rounded-xl"><i data-lucide="sparkles" class="w-4 h-4 text-kasi-gold-light"></i>Join Free — List Today</a>
+    </div>
+  </header>
+
+  <!-- ═══════════ 2. HERO SECTION + SEARCH BAR ═══════════ -->
+  <section id="top" class="relative overflow-hidden bg-kasi-purple-950 text-white">
+    <div class="absolute inset-0 hero-pattern opacity-60"></div>
+    <div class="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full bg-kasi-gold/20 blur-[120px]"></div>
+    <div class="absolute -bottom-40 -left-32 w-[420px] h-[420px] rounded-full bg-kasi-purple-500/30 blur-[120px]"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-10 sm:pt-20 sm:pb-14">
+      <div class="max-w-3xl">
+        <p class="inline-flex items-center gap-2 bg-white/10 border border-kasi-gold/40 rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold text-kasi-gold-light mb-5">
+          <i data-lucide="badge-check" class="w-4 h-4"></i>
+          Mzansi's trusted backroom marketplace — 12,400+ rooms listed
+        </p>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
+          Find Affordable,<br />Secure <span class="gold-text-gradient">Backrooms</span> Near You
+        </h1>
+        <p class="mt-5 text-base sm:text-lg text-white/80 leading-relaxed max-w-xl">
+          From Soweto to Secunda — verified rooms from <strong class="text-white">R1,500/month</strong>.
+          Ultra <strong class="text-kasi-gold-light">low-data browsing</strong> that works fast on any phone, even on 2G &amp; capped data.
+        </p>
+
+        <!-- Trust chips -->
+        <div class="mt-6 flex flex-wrap gap-2.5 text-xs sm:text-sm font-semibold">
+          <span class="inline-flex items-center gap-1.5 bg-white/10 rounded-full px-3.5 py-1.5"><i data-lucide="verified" class="w-4 h-4 text-kasi-gold-light"></i>ID-verified landlords</span>
+          <span class="inline-flex items-center gap-1.5 bg-white/10 rounded-full px-3.5 py-1.5"><i data-lucide="zap" class="w-4 h-4 text-kasi-gold-light"></i>Loads in &lt; 2 seconds</span>
+          <span class="inline-flex items-center gap-1.5 bg-white/10 rounded-full px-3.5 py-1.5"><i data-lucide="lock" class="w-4 h-4 text-kasi-gold-light"></i>Numbers stay private</span>
+        </div>
+      </div>
+
+      <!-- Search bar component -->
+      <form id="searchBar" class="mt-8 bg-white rounded-2xl sm:rounded-3xl shadow-pop p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_auto] gap-3 text-kasi-purple-950" role="search" aria-label="Search backrooms">
+        <label class="flex items-center gap-3 bg-kasi-cream border border-kasi-purple-100 rounded-2xl px-4 py-3 focus-within:ring-2 focus-within:ring-kasi-gold focus-within:border-kasi-gold transition">
+          <i data-lucide="map-pin" class="w-5 h-5 text-kasi-purple-700 shrink-0"></i>
+          <span class="flex-1">
+            <span class="block text-[11px] font-bold uppercase tracking-wider text-kasi-purple-700/70">Suburb / Township</span>
+            <input id="searchLocation" type="text" placeholder="e.g. Soweto, Standerton…" autocomplete="off"
+              class="w-full bg-transparent font-semibold placeholder:text-gray-400 placeholder:font-normal focus:outline-none text-[15px]" />
+          </span>
+        </label>
+        <label class="flex items-center gap-3 bg-kasi-cream border border-kasi-purple-100 rounded-2xl px-4 py-3 focus-within:ring-2 focus-within:ring-kasi-gold focus-within:border-kasi-gold transition">
+          <i data-lucide="wallet" class="w-5 h-5 text-kasi-purple-700 shrink-0"></i>
+          <span class="flex-1">
+            <span class="block text-[11px] font-bold uppercase tracking-wider text-kasi-purple-700/70">Max Rent (ZAR)</span>
+            <select id="searchMaxRent" class="w-full bg-transparent font-semibold focus:outline-none text-[15px] cursor-pointer">
+              <option value="">Any price</option>
+              <option value="1800">Up to R1,800</option>
+              <option value="2200">Up to R2,200</option>
+              <option value="2800">Up to R2,800</option>
+              <option value="3500">Up to R3,500</option>
+            </select>
+          </span>
+        </label>
+        <label class="flex items-center gap-3 bg-kasi-cream border border-kasi-purple-100 rounded-2xl px-4 py-3 focus-within:ring-2 focus-within:ring-kasi-gold focus-within:border-kasi-gold transition">
+          <i data-lucide="plug-zap" class="w-5 h-5 text-kasi-purple-700 shrink-0"></i>
+          <span class="flex-1">
+            <span class="block text-[11px] font-bold uppercase tracking-wider text-kasi-purple-700/70">Amenities</span>
+            <select id="searchAmenity" class="w-full bg-transparent font-semibold focus:outline-none text-[15px] cursor-pointer">
+              <option value="">All amenities</option>
+              <option value="prepaid">Prepaid Electricity</option>
+              <option value="shower">Private Shower</option>
+              <option value="fencing">Secure Fencing</option>
+              <option value="wifi">Wi-Fi / Fibre</option>
+              <option value="parking">Parking</option>
+            </select>
+          </span>
+        </label>
+        <button type="submit" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-kasi-purple-900 to-kasi-purple-700 hover:to-kasi-purple-600 text-white font-bold px-8 py-3.5 rounded-2xl shadow-card hover:shadow-pop hover:-translate-y-0.5 transition sm:col-span-2 lg:col-span-1 border border-kasi-gold/50">
+          <i data-lucide="search" class="w-5 h-5 text-kasi-gold-light"></i>Search
+        </button>
+      </form>
+
+      <!-- Quick suburb pills -->
+      <div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+        <span class="text-white/60 font-semibold text-xs uppercase tracking-wider mr-1">Popular:</span>
+        <button class="quick-suburb bg-white/10 hover:bg-kasi-gold hover:text-kasi-purple-950 border border-white/15 rounded-full px-4 py-1.5 font-semibold transition" data-suburb="Soweto">Soweto</button>
+        <button class="quick-suburb bg-white/10 hover:bg-kasi-gold hover:text-kasi-purple-950 border border-white/15 rounded-full px-4 py-1.5 font-semibold transition" data-suburb="Standerton">Standerton</button>
+        <button class="quick-suburb bg-white/10 hover:bg-kasi-gold hover:text-kasi-purple-950 border border-white/15 rounded-full px-4 py-1.5 font-semibold transition" data-suburb="Secunda">Secunda</button>
+        <button class="quick-suburb bg-white/10 hover:bg-kasi-gold hover:text-kasi-purple-950 border border-white/15 rounded-full px-4 py-1.5 font-semibold transition hidden sm:inline-block" data-suburb="Alexandra">Alexandra</button>
+        <button id="resetFilters" class="ml-auto inline-flex items-center gap-1.5 text-kasi-gold-light hover:text-white font-semibold transition"><i data-lucide="rotate-ccw" class="w-4 h-4"></i>Reset</button>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="relative border-t border-white/10 bg-white/5 backdrop-blur-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+        <div><p class="font-display font-extrabold text-xl sm:text-2xl text-kasi-gold-light">12,400+</p><p class="text-xs text-white/60 font-semibold uppercase tracking-wider">Verified rooms</p></div>
+        <div><p class="font-display font-extrabold text-xl sm:text-2xl text-kasi-gold-light">8 provinces</p><p class="text-xs text-white/60 font-semibold uppercase tracking-wider">Townships covered</p></div>
+        <div><p class="font-display font-extrabold text-xl sm:text-2xl text-kasi-gold-light">R1,500<span class="text-sm font-bold"> avg min</span></p><p class="text-xs text-white/60 font-semibold uppercase tracking-wider">Starting rent</p></div>
+        <div><p class="font-display font-extrabold text-xl sm:text-2xl text-kasi-gold-light">4.8 ★</p><p class="text-xs text-white/60 font-semibold uppercase tracking-wider">Tenant rating</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ TAB SWITCHING SYSTEM ═══════════ -->
+  <section id="directory" class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16">
+    <div class="text-center max-w-2xl mx-auto reveal">
+      <p class="text-xs font-bold uppercase tracking-[0.2em] text-kasi-gold-dark">One platform · Two journeys</p>
+      <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-kasi-purple-900 tracking-tight">Are you renting or listing?</h2>
+      <p class="mt-3 text-gray-600">Switch views instantly — tenants browse verified rooms, landlords upload a yard space in under 5 minutes.</p>
+    </div>
+
+    <div class="mt-8 flex justify-center reveal" role="tablist" aria-label="Switch between tenant and landlord views">
+      <div class="inline-flex bg-white border border-kasi-purple-100 rounded-2xl p-1.5 shadow-card w-full sm:w-auto">
+        <button id="tabTenantBtn" role="tab" aria-selected="true" aria-controls="panel-tenant"
+          class="tab-btn active flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 rounded-xl font-bold text-sm sm:text-[15px] text-kasi-purple-900">
+          <i data-lucide="users" class="w-5 h-5"></i>Tenant Finder Directory
+        </button>
+        <button id="tabLandlordBtn" role="tab" aria-selected="false" aria-controls="panel-landlord"
+          class="tab-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 rounded-xl font-bold text-sm sm:text-[15px] text-kasi-purple-900">
+          <i data-lucide="building-2" class="w-5 h-5"></i>Landlord Property Upload
+        </button>
+      </div>
+    </div>
+
+    <!-- ═════════ 3. FEATURED LISTINGS GRID (Tenant panel) ═════════ -->
+    <div id="panel-tenant" role="tabpanel" aria-labelledby="tabTenantBtn" class="pt-10">
+      <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+        <div>
+          <h3 id="find" class="text-2xl sm:text-3xl font-extrabold text-kasi-purple-900 scroll-mt-24">Featured rooms near you</h3>
+          <p id="resultCount" class="text-sm text-gray-500 font-semibold mt-1">Showing 6 verified listings</p>
+        </div>
+        <span class="inline-flex items-center gap-2 text-sm font-bold text-kasi-purple-800 bg-kasi-purple-50 border border-kasi-purple-100 rounded-full px-4 py-2">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>Live availability · Updated today
+        </span>
+      </div>
+
+      <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- CARD 1: Soweto -->
+        <article class="listing-card bg-white rounded-3xl overflow-hidden shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1"
+          data-location="soweto orlando johannesburg gauteng" data-price="1800" data-amenities="prepaid shower fencing">
+          <div class="relative h-52 overflow-hidden bg-kasi-purple-100">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=60&w=800&auto=format&fit=crop" alt="Neat backroom with ensuite in Soweto" loading="lazy" decoding="async" width="800" height="520" class="card-img w-full h-full object-cover" />
+            <div class="img-fallback hidden absolute inset-0 items-center justify-center bg-kasi-purple-100 text-kasi-purple-700 font-bold text-sm p-6 text-center">📷 Image paused — Data Saver is ON</div>
+            <span class="absolute top-3 left-3 bg-kasi-purple-950/90 backdrop-blur text-white font-extrabold px-4 py-1.5 rounded-full text-[15px] border border-kasi-gold/50">R1,800 <span class="font-semibold text-white/70 text-xs">/ month</span></span>
+            <span class="absolute top-3 right-3 inline-flex items-center gap-1 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full"><i data-lucide="badge-check" class="w-3.5 h-3.5"></i>Verified</span>
+          </div>
+          <div class="p-5">
+            <p class="flex items-center gap-1.5 text-sm font-bold text-kasi-gold-dark"><i data-lucide="map-pin" class="w-4 h-4"></i>Orlando East, Soweto</p>
+            <h4 class="mt-1 font-extrabold text-lg text-kasi-purple-950">Sunny Backroom with Ensuite</h4>
+            <p class="mt-1.5 text-sm text-gray-500 leading-relaxed">Private entrance, own toilet &amp; shower. 5 min walk to Rea Vaya station. Quiet yard, ideal for a working professional.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="plug-zap" class="w-3.5 h-3.5"></i>Prepaid Electricity</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="shower-head" class="w-3.5 h-3.5"></i>Private Shower</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-gold-pale text-kasi-gold-dark rounded-full px-3 py-1"><i data-lucide="fence" class="w-3.5 h-3.5"></i>Secure Fencing</span>
+            </div>
+            <div class="mt-5 flex gap-2.5">
+              <button class="view-room-btn flex-1 inline-flex items-center justify-center gap-2 bg-kasi-purple-900 hover:bg-kasi-purple-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Sunny Backroom — Orlando East, Soweto"><i data-lucide="eye" class="w-4 h-4 text-kasi-gold-light"></i>View Room</button>
+              <button class="message-btn flex-1 inline-flex items-center justify-center gap-2 border-2 border-kasi-gold text-kasi-purple-900 hover:bg-kasi-gold-pale font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Sunny Backroom — Orlando East, Soweto"><i data-lucide="message-circle" class="w-4 h-4"></i>Message</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2: Standerton -->
+        <article class="listing-card bg-white rounded-3xl overflow-hidden shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1"
+          data-location="standerton lekwa mpumalanga" data-price="2500" data-amenities="prepaid shower fencing parking">
+          <div class="relative h-52 overflow-hidden bg-kasi-purple-100">
+            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=60&w=800&auto=format&fit=crop" alt="Modern cottage in Standerton" loading="lazy" decoding="async" width="800" height="520" class="card-img w-full h-full object-cover" />
+            <div class="img-fallback hidden absolute inset-0 items-center justify-center bg-kasi-purple-100 text-kasi-purple-700 font-bold text-sm p-6 text-center">📷 Image paused — Data Saver is ON</div>
+            <span class="absolute top-3 left-3 bg-kasi-purple-950/90 backdrop-blur text-white font-extrabold px-4 py-1.5 rounded-full text-[15px] border border-kasi-gold/50">R2,500 <span class="font-semibold text-white/70 text-xs">/ month</span></span>
+            <span class="absolute top-3 right-3 inline-flex items-center gap-1 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full"><i data-lucide="badge-check" class="w-3.5 h-3.5"></i>Verified</span>
+          </div>
+          <div class="p-5">
+            <p class="flex items-center gap-1.5 text-sm font-bold text-kasi-gold-dark"><i data-lucide="map-pin" class="w-4 h-4"></i>Sakhisizwe, Standerton</p>
+            <h4 class="mt-1 font-extrabold text-lg text-kasi-purple-950">1-Bedroom Yard Cottage</h4>
+            <p class="mt-1.5 text-sm text-gray-500 leading-relaxed">Spacious cottage with kitchenette &amp; lounge. Prepaid meter, burglar bars &amp; own parking bay. Near Sasol Secunda road.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="plug-zap" class="w-3.5 h-3.5"></i>Prepaid Electricity</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="shower-head" class="w-3.5 h-3.5"></i>Private Shower</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-gold-pale text-kasi-gold-dark rounded-full px-3 py-1"><i data-lucide="car" class="w-3.5 h-3.5"></i>Parking</span>
+            </div>
+            <div class="mt-5 flex gap-2.5">
+              <button class="view-room-btn flex-1 inline-flex items-center justify-center gap-2 bg-kasi-purple-900 hover:bg-kasi-purple-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="1-Bedroom Cottage — Sakhisizwe, Standerton"><i data-lucide="eye" class="w-4 h-4 text-kasi-gold-light"></i>View Room</button>
+              <button class="message-btn flex-1 inline-flex items-center justify-center gap-2 border-2 border-kasi-gold text-kasi-purple-900 hover:bg-kasi-gold-pale font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="1-Bedroom Cottage — Sakhisizwe, Standerton"><i data-lucide="message-circle" class="w-4 h-4"></i>Message</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3: Secunda -->
+        <article class="listing-card bg-white rounded-3xl overflow-hidden shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1"
+          data-location="secunda emalahleni mpumalanga sasol" data-price="3200" data-amenities="prepaid shower wifi parking">
+          <div class="relative h-52 overflow-hidden bg-kasi-purple-100">
+            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=60&w=800&auto=format&fit=crop" alt="Bachelor flatlet in Secunda" loading="lazy" decoding="async" width="800" height="520" class="card-img w-full h-full object-cover" />
+            <div class="img-fallback hidden absolute inset-0 items-center justify-center bg-kasi-purple-100 text-kasi-purple-700 font-bold text-sm p-6 text-center">📷 Image paused — Data Saver is ON</div>
+            <span class="absolute top-3 left-3 bg-kasi-purple-950/90 backdrop-blur text-white font-extrabold px-4 py-1.5 rounded-full text-[15px] border border-kasi-gold/50">R3,200 <span class="font-semibold text-white/70 text-xs">/ month</span></span>
+            <span class="absolute top-3 right-3 inline-flex items-center gap-1 bg-kasi-gold text-kasi-purple-950 text-xs font-bold px-3 py-1.5 rounded-full"><i data-lucide="flame" class="w-3.5 h-3.5"></i>High demand</span>
+          </div>
+          <div class="p-5">
+            <p class="flex items-center gap-1.5 text-sm font-bold text-kasi-gold-dark"><i data-lucide="map-pin" class="w-4 h-4"></i>Secunda Central</p>
+            <h4 class="mt-1 font-extrabold text-lg text-kasi-purple-950">Bachelor Flatlet near Sasol</h4>
+            <p class="mt-1.5 text-sm text-gray-500 leading-relaxed">Modern open-plan flatlet with fibre Wi-Fi ready. Perfect for contractors &amp; shift workers. Water included in rent.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="plug-zap" class="w-3.5 h-3.5"></i>Prepaid Electricity</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="wifi" class="w-3.5 h-3.5"></i>Wi-Fi Ready</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-gold-pale text-kasi-gold-dark rounded-full px-3 py-1"><i data-lucide="car" class="w-3.5 h-3.5"></i>Parking</span>
+            </div>
+            <div class="mt-5 flex gap-2.5">
+              <button class="view-room-btn flex-1 inline-flex items-center justify-center gap-2 bg-kasi-purple-900 hover:bg-kasi-purple-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Bachelor Flatlet — Secunda Central"><i data-lucide="eye" class="w-4 h-4 text-kasi-gold-light"></i>View Room</button>
+              <button class="message-btn flex-1 inline-flex items-center justify-center gap-2 border-2 border-kasi-gold text-kasi-purple-900 hover:bg-kasi-gold-pale font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Bachelor Flatlet — Secunda Central"><i data-lucide="message-circle" class="w-4 h-4"></i>Message</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 4: Alexandra -->
+        <article class="listing-card bg-white rounded-3xl overflow-hidden shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1"
+          data-location="alexandra alex johannesburg gauteng" data-price="1500" data-amenities="prepaid fencing">
+          <div class="relative h-52 overflow-hidden bg-kasi-purple-100">
+            <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=60&w=800&auto=format&fit=crop" alt="Cozy backroom in Alexandra" loading="lazy" decoding="async" width="800" height="520" class="card-img w-full h-full object-cover" />
+            <div class="img-fallback hidden absolute inset-0 items-center justify-center bg-kasi-purple-100 text-kasi-purple-700 font-bold text-sm p-6 text-center">📷 Image paused — Data Saver is ON</div>
+            <span class="absolute top-3 left-3 bg-kasi-purple-950/90 backdrop-blur text-white font-extrabold px-4 py-1.5 rounded-full text-[15px] border border-kasi-gold/50">R1,500 <span class="font-semibold text-white/70 text-xs">/ month</span></span>
+            <span class="absolute top-3 right-3 inline-flex items-center gap-1 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full"><i data-lucide="badge-check" class="w-3.5 h-3.5"></i>Verified</span>
+          </div>
+          <div class="p-5">
+            <p class="flex items-center gap-1.5 text-sm font-bold text-kasi-gold-dark"><i data-lucide="map-pin" class="w-4 h-4"></i>Alexandra, Johannesburg</p>
+            <h4 class="mt-1 font-extrabold text-lg text-kasi-purple-950">Cozy Single Room + Kitchen Access</h4>
+            <p class="mt-1.5 text-sm text-gray-500 leading-relaxed">Budget-friendly room with shared kitchen. Prepaid meter, secure gate with remote. Close to London Road taxis.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="plug-zap" class="w-3.5 h-3.5"></i>Prepaid Electricity</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-gold-pale text-kasi-gold-dark rounded-full px-3 py-1"><i data-lucide="fence" class="w-3.5 h-3.5"></i>Secure Fencing</span>
+            </div>
+            <div class="mt-5 flex gap-2.5">
+              <button class="view-room-btn flex-1 inline-flex items-center justify-center gap-2 bg-kasi-purple-900 hover:bg-kasi-purple-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Single Room — Alexandra, Johannesburg"><i data-lucide="eye" class="w-4 h-4 text-kasi-gold-light"></i>View Room</button>
+              <button class="message-btn flex-1 inline-flex items-center justify-center gap-2 border-2 border-kasi-gold text-kasi-purple-900 hover:bg-kasi-gold-pale font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Single Room — Alexandra, Johannesburg"><i data-lucide="message-circle" class="w-4 h-4"></i>Message</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 5: Khayelitsha -->
+        <article class="listing-card bg-white rounded-3xl overflow-hidden shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1"
+          data-location="khayelitsha cape town western cape" data-price="2200" data-amenities="prepaid shower fencing wifi">
+          <div class="relative h-52 overflow-hidden bg-kasi-purple-100">
+            <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?q=60&w=800&auto=format&fit=crop" alt="Wendy house studio in Khayelitsha" loading="lazy" decoding="async" width="800" height="520" class="card-img w-full h-full object-cover" />
+            <div class="img-fallback hidden absolute inset-0 items-center justify-center bg-kasi-purple-100 text-kasi-purple-700 font-bold text-sm p-6 text-center">📷 Image paused — Data Saver is ON</div>
+            <span class="absolute top-3 left-3 bg-kasi-purple-950/90 backdrop-blur text-white font-extrabold px-4 py-1.5 rounded-full text-[15px] border border-kasi-gold/50">R2,200 <span class="font-semibold text-white/70 text-xs">/ month</span></span>
+            <span class="absolute top-3 right-3 inline-flex items-center gap-1 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full"><i data-lucide="badge-check" class="w-3.5 h-3.5"></i>Verified</span>
+          </div>
+          <div class="p-5">
+            <p class="flex items-center gap-1.5 text-sm font-bold text-kasi-gold-dark"><i data-lucide="map-pin" class="w-4 h-4"></i>Site C, Khayelitsha</p>
+            <h4 class="mt-1 font-extrabold text-lg text-kasi-purple-950">Neat Studio with Own Entrance</h4>
+            <p class="mt-1.5 text-sm text-gray-500 leading-relaxed">Tiled studio with built-in cupboards. JoJo backup water, solar light backup during load-shedding. Family yard.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="shower-head" class="w-3.5 h-3.5"></i>Private Shower</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="wifi" class="w-3.5 h-3.5"></i>Wi-Fi Ready</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-gold-pale text-kasi-gold-dark rounded-full px-3 py-1"><i data-lucide="fence" class="w-3.5 h-3.5"></i>Secure Fencing</span>
+            </div>
+            <div class="mt-5 flex gap-2.5">
+              <button class="view-room-btn flex-1 inline-flex items-center justify-center gap-2 bg-kasi-purple-900 hover:bg-kasi-purple-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Studio — Site C, Khayelitsha"><i data-lucide="eye" class="w-4 h-4 text-kasi-gold-light"></i>View Room</button>
+              <button class="message-btn flex-1 inline-flex items-center justify-center gap-2 border-2 border-kasi-gold text-kasi-purple-900 hover:bg-kasi-gold-pale font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Studio — Site C, Khayelitsha"><i data-lucide="message-circle" class="w-4 h-4"></i>Message</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 6: Mamelodi -->
+        <article class="listing-card bg-white rounded-3xl overflow-hidden shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1"
+          data-location="mamelodi pretoria tshwane gauteng" data-price="2800" data-amenities="prepaid shower fencing parking wifi">
+          <div class="relative h-52 overflow-hidden bg-kasi-purple-100">
+            <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?q=60&w=800&auto=format&fit=crop" alt="Garden cottage in Mamelodi" loading="lazy" decoding="async" width="800" height="520" class="card-img w-full h-full object-cover" />
+            <div class="img-fallback hidden absolute inset-0 items-center justify-center bg-kasi-purple-100 text-kasi-purple-700 font-bold text-sm p-6 text-center">📷 Image paused — Data Saver is ON</div>
+            <span class="absolute top-3 left-3 bg-kasi-purple-950/90 backdrop-blur text-white font-extrabold px-4 py-1.5 rounded-full text-[15px] border border-kasi-gold/50">R2,800 <span class="font-semibold text-white/70 text-xs">/ month</span></span>
+            <span class="absolute top-3 right-3 inline-flex items-center gap-1 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full"><i data-lucide="badge-check" class="w-3.5 h-3.5"></i>Verified</span>
+          </div>
+          <div class="p-5">
+            <p class="flex items-center gap-1.5 text-sm font-bold text-kasi-gold-dark"><i data-lucide="map-pin" class="w-4 h-4"></i>Mamelodi East, Pretoria</p>
+            <h4 class="mt-1 font-extrabold text-lg text-kasi-purple-950">Garden Cottage for Couple</h4>
+            <p class="mt-1.5 text-sm text-gray-500 leading-relaxed">Two rooms + full bathroom in a walled garden yard. Pet-friendly, borehole water. 10 min to Denneboom station.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="shower-head" class="w-3.5 h-3.5"></i>Private Shower</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1"><i data-lucide="car" class="w-3.5 h-3.5"></i>Parking</span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold bg-kasi-gold-pale text-kasi-gold-dark rounded-full px-3 py-1"><i data-lucide="paw-print" class="w-3.5 h-3.5"></i>Pet Friendly</span>
+            </div>
+            <div class="mt-5 flex gap-2.5">
+              <button class="view-room-btn flex-1 inline-flex items-center justify-center gap-2 bg-kasi-purple-900 hover:bg-kasi-purple-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Garden Cottage — Mamelodi East, Pretoria"><i data-lucide="eye" class="w-4 h-4 text-kasi-gold-light"></i>View Room</button>
+              <button class="message-btn flex-1 inline-flex items-center justify-center gap-2 border-2 border-kasi-gold text-kasi-purple-900 hover:bg-kasi-gold-pale font-bold text-sm px-4 py-2.5 rounded-xl transition" data-room="Garden Cottage — Mamelodi East, Pretoria"><i data-lucide="message-circle" class="w-4 h-4"></i>Message</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Empty state -->
+      <div id="noResults" class="hidden mt-6 bg-white border-2 border-dashed border-kasi-purple-100 rounded-3xl p-10 text-center">
+        <span class="mx-auto w-14 h-14 rounded-2xl bg-kasi-purple-50 flex items-center justify-center"><i data-lucide="search-x" class="w-7 h-7 text-kasi-purple-700"></i></span>
+        <h4 class="mt-4 font-extrabold text-xl text-kasi-purple-900">No rooms match your search</h4>
+        <p id="noResultsText" class="mt-2 text-gray-500 text-sm">Try a nearby township or increase your max rent.</p>
+        <button id="clearSearchBtn" class="mt-5 inline-flex items-center gap-2 bg-kasi-purple-900 text-white font-bold text-sm px-6 py-3 rounded-xl hover:bg-kasi-purple-700 transition"><i data-lucide="rotate-ccw" class="w-4 h-4 text-kasi-gold-light"></i>Show all rooms</button>
+      </div>
+    </div>
+
+    <!-- ═════════ 4. LANDLORD PORTAL (Landlord panel) ═════════ -->
+    <div id="panel-landlord" role="tabpanel" aria-labelledby="tabLandlordBtn" class="hidden pt-10 scroll-mt-24">
+      <div id="list" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start scroll-mt-24">
+
+        <!-- LEFT: ultra-clear explainer for older owners -->
+        <div class="reveal">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-kasi-gold-dark">Landlord portal · Gogo &amp; Mkhulu friendly</p>
+          <h3 class="mt-2 text-3xl sm:text-4xl font-extrabold text-kasi-purple-900 tracking-tight leading-tight">List Your Yard Space in <span class="text-kasi-gold-dark">3 Easy Steps</span></h3>
+          <p class="mt-3 text-gray-600 leading-relaxed">Big buttons. Simple words. No computer skills needed. If you can use WhatsApp, you can list a room on KasiRooms — <strong>listing is FREE.</strong></p>
+
+          <ol class="mt-7 space-y-4">
+            <li class="flex gap-4 bg-white border border-kasi-purple-100 rounded-2xl p-5 shadow-card">
+              <span class="shrink-0 w-12 h-12 rounded-2xl bg-kasi-purple-900 text-kasi-gold-light font-display font-extrabold text-xl flex items-center justify-center">1</span>
+              <div>
+                <p class="font-extrabold text-kasi-purple-950 flex items-center gap-2"><i data-lucide="clipboard-list" class="w-4 h-4 text-kasi-gold-dark"></i>Tell us about your room</p>
+                <p class="mt-1 text-sm text-gray-500 leading-relaxed">How many rooms? How much rent per month? Tick what you have — prepaid meter, shower, parking, fence.</p>
+              </div>
+            </li>
+            <li class="flex gap-4 bg-white border border-kasi-purple-100 rounded-2xl p-5 shadow-card">
+              <span class="shrink-0 w-12 h-12 rounded-2xl bg-kasi-purple-900 text-kasi-gold-light font-display font-extrabold text-xl flex items-center justify-center">2</span>
+              <div>
+                <p class="font-extrabold text-kasi-purple-950 flex items-center gap-2"><i data-lucide="file-check" class="w-4 h-4 text-kasi-gold-dark"></i>Attach your proof (take a photo)</p>
+                <p class="mt-1 text-sm text-gray-500 leading-relaxed">Snap a photo of your <strong>municipal bill</strong> or rates statement + your ID. This proves the yard is yours and earns you a <span class="text-green-700 font-bold">✓ Verified</span> badge.</p>
+              </div>
+            </li>
+            <li class="flex gap-4 bg-white border border-kasi-purple-100 rounded-2xl p-5 shadow-card">
+              <span class="shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-kasi-gold-light to-kasi-gold text-kasi-purple-950 font-display font-extrabold text-xl flex items-center justify-center">3</span>
+              <div>
+                <p class="font-extrabold text-kasi-purple-950 flex items-center gap-2"><i data-lucide="hand-coins" class="w-4 h-4 text-kasi-gold-dark"></i>Set rent &amp; get tenants</p>
+                <p class="mt-1 text-sm text-gray-500 leading-relaxed">Choose deposit, house rules &amp; move-in date. Tenants message you <strong>inside the app</strong> — your cell number stays hidden.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="mt-5 bg-kasi-gold-pale border border-kasi-gold/40 rounded-2xl p-5 flex gap-3">
+            <i data-lucide="phone-call" class="w-6 h-6 text-kasi-gold-dark shrink-0"></i>
+            <p class="text-sm leading-relaxed text-kasi-purple-950"><strong>Need help?</strong> Our Sesotho, isiZulu &amp; English helpers will list the room <em>with you</em> on the phone. Call <strong>087 123 4567</strong> (Mon–Sat, 8am–5pm) — ShareCall rates apply.</p>
+          </div>
+        </div>
+
+        <!-- RIGHT: simplified submission preview form -->
+        <form id="landlordForm" class="bg-white rounded-3xl shadow-pop border border-kasi-purple-100 overflow-hidden reveal" novalidate>
+          <div class="bg-gradient-to-r from-kasi-purple-950 to-kasi-purple-800 px-6 py-5 flex items-center gap-3">
+            <span class="w-11 h-11 rounded-2xl bg-kasi-gold flex items-center justify-center shrink-0"><i data-lucide="house-plus" class="w-6 h-6 text-kasi-purple-950"></i></span>
+            <div>
+              <p class="font-display font-extrabold text-white text-lg leading-tight">Room Upload Form</p>
+              <p class="text-xs text-kasi-gold-light font-semibold">Takes ±5 minutes · FREE to list</p>
+            </div>
+            <span class="ml-auto hidden sm:inline-flex items-center gap-1.5 bg-white/10 text-white text-xs font-bold rounded-full px-3 py-1.5"><span class="w-2 h-2 rounded-full bg-green-400"></span>Draft auto-saved</span>
+          </div>
+
+          <div class="p-6 space-y-5 text-[15px]">
+            <!-- Owner -->
+            <fieldset>
+              <legend class="font-extrabold text-kasi-purple-950 flex items-center gap-2 mb-3"><span class="w-6 h-6 rounded-lg bg-kasi-purple-900 text-kasi-gold-light text-xs font-extrabold flex items-center justify-center">A</span>Your details</legend>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <label class="block">
+                  <span class="text-sm font-bold text-gray-700">Full name *</span>
+                  <input id="ownerName" required type="text" placeholder="e.g. Maria Dlamini" class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-semibold placeholder:font-normal placeholder:text-gray-400 outline-none transition" />
+                </label>
+                <label class="block">
+                  <span class="text-sm font-bold text-gray-700">Cell number * <em class="font-semibold text-gray-400 not-italic">(never shown publicly)</em></span>
+                  <input id="ownerPhone" required type="tel" inputmode="tel" pattern="0[0-9]{9}" placeholder="e.g. 082 123 4567" class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-semibold placeholder:font-normal placeholder:text-gray-400 outline-none transition" />
+                </label>
+              </div>
+            </fieldset>
+
+            <!-- Property -->
+            <fieldset>
+              <legend class="font-extrabold text-kasi-purple-950 flex items-center gap-2 mb-3"><span class="w-6 h-6 rounded-lg bg-kasi-purple-900 text-kasi-gold-light text-xs font-extrabold flex items-center justify-center">B</span>Where is the room?</legend>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <label class="block">
+                  <span class="text-sm font-bold text-gray-700">Township / Suburb *</span>
+                  <input id="propSuburb" required type="text" placeholder="e.g. Standerton" class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-semibold placeholder:font-normal placeholder:text-gray-400 outline-none transition" />
+                </label>
+                <label class="block">
+                  <span class="text-sm font-bold text-gray-700">Street &amp; stand no. <em class="font-semibold text-gray-400 not-italic">(only shared after you accept)</em></span>
+                  <input id="propStreet" type="text" placeholder="e.g. 1234 Hlongwane St" class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-semibold placeholder:font-normal placeholder:text-gray-400 outline-none transition" />
+                </label>
+              </div>
+              <label class="block mt-3">
+                <span class="text-sm font-bold text-gray-700">What type of place is it? *</span>
+                <select id="roomType" required class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-semibold outline-none transition bg-white cursor-pointer">
+                  <option value="">— Tap to choose —</option>
+                  <option>Backroom (single)</option>
+                  <option>Backroom with ensuite</option>
+                  <option>Yard cottage (1 bedroom)</option>
+                  <option>Garage conversion</option>
+                  <option>Flatlet / Bachelor</option>
+                  <option>Wendy house / Zozo</option>
+                </select>
+              </label>
+            </fieldset>
+
+            <!-- Terms -->
+            <fieldset>
+              <legend class="font-extrabold text-kasi-purple-950 flex items-center gap-2 mb-3"><span class="w-6 h-6 rounded-lg bg-kasi-purple-900 text-kasi-gold-light text-xs font-extrabold flex items-center justify-center">C</span>Rental terms (your money, your rules)</legend>
+              <div class="grid sm:grid-cols-3 gap-3">
+                <label class="block">
+                  <span class="text-sm font-bold text-gray-700">Rent / month (R) *</span>
+                  <input id="rentAmount" required type="number" min="500" max="20000" step="50" placeholder="1800" class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-semibold placeholder:font-normal placeholder:text-gray-400 outline-none transition" />
+                </label>
+                <label class="block">
+                  <span class="text-sm font-bold text-gray-700">Deposit (R)</span>
+                  <input id="depositAmount" type="number" min="0" max="20000" step="50" placeholder="1800" class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-semibold placeholder:font-normal placeholder:text-gray-400 outline-none transition" />
+                </label>
+                <label class="block">
+                  <span class="text-sm font-bold text-gray-700">Available from</span>
+                  <input id="availableDate" type="date" class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-semibold outline-none transition" />
+                </label>
+              </div>
+              <p class="mt-3 text-sm font-bold text-gray-700">Tick what your room has:</p>
+              <div class="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm font-semibold">
+                <label class="flex items-center gap-2 bg-kasi-cream border border-kasi-purple-100 rounded-xl px-3 py-2.5 cursor-pointer hover:border-kasi-gold transition"><input type="checkbox" name="amen" value="Prepaid Electricity" class="w-4 h-4 accent-[#4C1D95]" checked />Prepaid meter</label>
+                <label class="flex items-center gap-2 bg-kasi-cream border border-kasi-purple-100 rounded-xl px-3 py-2.5 cursor-pointer hover:border-kasi-gold transition"><input type="checkbox" name="amen" value="Private Shower" class="w-4 h-4 accent-[#4C1D95]" checked />Private shower</label>
+                <label class="flex items-center gap-2 bg-kasi-cream border border-kasi-purple-100 rounded-xl px-3 py-2.5 cursor-pointer hover:border-kasi-gold transition"><input type="checkbox" name="amen" value="Secure Fencing" class="w-4 h-4 accent-[#4C1D95]" checked />Secure fence</label>
+                <label class="flex items-center gap-2 bg-kasi-cream border border-kasi-purple-100 rounded-xl px-3 py-2.5 cursor-pointer hover:border-kasi-gold transition"><input type="checkbox" name="amen" value="Parking" class="w-4 h-4 accent-[#4C1D95]" />Parking</label>
+                <label class="flex items-center gap-2 bg-kasi-cream border border-kasi-purple-100 rounded-xl px-3 py-2.5 cursor-pointer hover:border-kasi-gold transition"><input type="checkbox" name="amen" value="Wi-Fi" class="w-4 h-4 accent-[#4C1D95]" />Wi-Fi</label>
+                <label class="flex items-center gap-2 bg-kasi-cream border border-kasi-purple-100 rounded-xl px-3 py-2.5 cursor-pointer hover:border-kasi-gold transition"><input type="checkbox" name="amen" value="Furnished" class="w-4 h-4 accent-[#4C1D95]" />Furnished</label>
+              </div>
+              <label class="block mt-3">
+                <span class="text-sm font-bold text-gray-700">Describe your room (2–3 sentences is fine)</span>
+                <textarea id="roomDesc" rows="3" placeholder="e.g. Big sunny backroom, own toilet, quiet yard. Close to taxi rank. No loud music after 9pm." class="mt-1.5 w-full rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-3 font-medium placeholder:font-normal placeholder:text-gray-400 outline-none transition resize-none"></textarea>
+              </label>
+            </fieldset>
+
+            <!-- Documents -->
+            <fieldset class="bg-kasi-cream border border-kasi-purple-100 rounded-2xl p-4">
+              <legend class="font-extrabold text-kasi-purple-950 flex items-center gap-2 px-2"><span class="w-6 h-6 rounded-lg bg-kasi-gold text-kasi-purple-950 text-xs font-extrabold flex items-center justify-center">D</span>Proof documents (photos are OK)</legend>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <label class="block bg-white rounded-xl border-2 border-dashed border-kasi-purple-200 p-4 cursor-pointer hover:border-kasi-gold transition">
+                  <span class="flex items-center gap-2 text-sm font-extrabold text-kasi-purple-900"><i data-lucide="receipt-text" class="w-4 h-4 text-kasi-gold-dark"></i>Municipal bill *</span>
+                  <span class="block text-xs text-gray-500 mt-1 mb-2">Rates / Eskom / water bill with your name</span>
+                  <input id="docBill" type="file" accept="image/*,.pdf" class="w-full text-xs font-semibold" />
+                </label>
+                <label class="block bg-white rounded-xl border-2 border-dashed border-kasi-purple-200 p-4 cursor-pointer hover:border-kasi-gold transition">
+                  <span class="flex items-center gap-2 text-sm font-extrabold text-kasi-purple-900"><i data-lucide="id-card" class="w-4 h-4 text-kasi-gold-dark"></i>Your SA ID *</span>
+                  <span class="block text-xs text-gray-500 mt-1 mb-2">ID card, book or driver's licence photo</span>
+                  <input id="docId" type="file" accept="image/*,.pdf" class="w-full text-xs font-semibold" />
+                </label>
+              </div>
+              <p class="mt-3 flex items-start gap-2 text-xs text-gray-500 leading-relaxed"><i data-lucide="lock" class="w-4 h-4 shrink-0 text-green-700"></i>Documents are encrypted and only seen by our verification team. Never shown to tenants. Stored per POPIA law.</p>
+            </fieldset>
+
+            <label class="flex items-start gap-3 text-sm leading-relaxed cursor-pointer">
+              <input id="popiaAgree" type="checkbox" class="mt-1 w-5 h-5 accent-[#4C1D95]" />
+              <span class="text-gray-600">I agree that KasiRooms may verify my ownership documents and ID under the <strong>POPI Act (Act 4 of 2013)</strong>, and I confirm I am the owner / authorised to rent this space. *</span>
+            </label>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button type="button" id="previewListingBtn" class="flex-1 inline-flex items-center justify-center gap-2 border-2 border-kasi-purple-900 text-kasi-purple-900 font-bold px-6 py-3.5 rounded-2xl hover:bg-kasi-purple-50 transition"><i data-lucide="eye" class="w-5 h-5"></i>Preview my listing</button>
+              <button type="submit" class="flex-1 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-kasi-purple-900 to-kasi-purple-700 text-white font-bold px-6 py-3.5 rounded-2xl shadow-card hover:shadow-pop hover:-translate-y-0.5 transition border border-kasi-gold/40"><i data-lucide="rocket" class="w-5 h-5 text-kasi-gold-light"></i>Publish — it's FREE</button>
+            </div>
+
+            <!-- Live preview card -->
+            <div id="listingPreview" class="hidden rounded-2xl border-2 border-kasi-gold/50 bg-kasi-gold-pale/40 p-4">
+              <p class="text-xs font-bold uppercase tracking-wider text-kasi-gold-dark mb-2 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i>Live preview — this is how tenants will see it</p>
+              <div class="bg-white rounded-2xl p-4 shadow-card">
+                <p id="previewPrice" class="font-display font-extrabold text-2xl text-kasi-purple-950">R — <span class="text-sm font-semibold text-gray-400">/ month</span></p>
+                <p id="previewTitle" class="font-extrabold text-kasi-purple-900 mt-0.5">Your room title</p>
+                <p id="previewLoc" class="text-sm font-bold text-kasi-gold-dark flex items-center gap-1 mt-0.5"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i>Your suburb</p>
+                <p id="previewDesc" class="text-sm text-gray-500 mt-2">Your description will appear here…</p>
+                <div id="previewAmens" class="mt-2 flex flex-wrap gap-1.5"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ HOW IT WORKS ═══════════ -->
+  <section id="how" class="max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 scroll-mt-20">
+    <div class="text-center max-w-2xl mx-auto reveal">
+      <p class="text-xs font-bold uppercase tracking-[0.2em] text-kasi-gold-dark">Simple &amp; safe</p>
+      <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-kasi-purple-900 tracking-tight">How KasiRooms works</h2>
+    </div>
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="reveal bg-white rounded-3xl p-7 shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1 transition">
+        <span class="w-14 h-14 rounded-2xl bg-gradient-to-br from-kasi-purple-900 to-kasi-purple-600 flex items-center justify-center shadow-card"><i data-lucide="search" class="w-7 h-7 text-kasi-gold-light"></i></span>
+        <p class="mt-5 text-xs font-bold text-kasi-gold-dark uppercase tracking-widest">Step 1</p>
+        <h3 class="mt-1 text-xl font-extrabold text-kasi-purple-950">Search &amp; filter</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Type your township, set max rent in Rands, pick must-have amenities. Results filter instantly — even on slow data.</p>
+      </div>
+      <div class="reveal bg-white rounded-3xl p-7 shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1 transition">
+        <span class="w-14 h-14 rounded-2xl bg-gradient-to-br from-kasi-gold-light to-kasi-gold flex items-center justify-center shadow-gold"><i data-lucide="messages-square" class="w-7 h-7 text-kasi-purple-950"></i></span>
+        <p class="mt-5 text-xs font-bold text-kasi-gold-dark uppercase tracking-widest">Step 2</p>
+        <h3 class="mt-1 text-xl font-extrabold text-kasi-purple-950">Chat securely in-app</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Ask about viewing times, deposit &amp; rules without sharing your number. Both sides stay POPIA-protected.</p>
+      </div>
+      <div class="reveal bg-white rounded-3xl p-7 shadow-card border border-kasi-purple-100/60 hover:shadow-pop hover:-translate-y-1 transition">
+        <span class="w-14 h-14 rounded-2xl bg-gradient-to-br from-kasi-purple-900 to-kasi-purple-600 flex items-center justify-center shadow-card"><i data-lucide="key-round" class="w-7 h-7 text-kasi-gold-light"></i></span>
+        <p class="mt-5 text-xs font-bold text-kasi-gold-dark uppercase tracking-widest">Step 3</p>
+        <h3 class="mt-1 text-xl font-extrabold text-kasi-purple-950">View, sign &amp; move in</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">View the room, sign our free standard lease (Rental Housing Act compliant) and pay deposit safely with proof.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 5. POPIA TRUST & SECURITY BANNER ═══════════ -->
+  <section id="security" class="max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 scroll-mt-20">
+    <div class="reveal relative overflow-hidden rounded-[2rem] bg-kasi-purple-950 text-white shadow-pop border border-kasi-gold/30">
+      <div class="absolute inset-0 hero-pattern opacity-40"></div>
+      <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-kasi-gold/20 blur-[100px]"></div>
+      <div class="relative p-8 sm:p-12 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 items-center">
+        <div>
+          <p class="inline-flex items-center gap-2 bg-kasi-gold text-kasi-purple-950 text-xs font-extrabold uppercase tracking-wider rounded-full px-4 py-1.5"><i data-lucide="shield-check" class="w-4 h-4"></i>POPIA · Act 4 of 2013 Compliant</p>
+          <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">Your ID, records &amp; rental agreements are <span class="gold-text-gradient">locked down tight.</span></h2>
+          <p class="mt-4 text-white/75 leading-relaxed">Registered with the <strong class="text-white">Information Regulator of South Africa</strong>. We treat your personal information like cash in a safe — encrypted, access-controlled, and never sold.</p>
+          <ul class="mt-6 space-y-3.5 text-[15px]">
+            <li class="flex gap-3"><span class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0"><i data-lucide="id-card" class="w-4 h-4 text-kasi-gold-light"></i></span><span><strong>SA ID checks encrypted end-to-end.</strong> <span class="text-white/70">Landlord IDs &amp; tenant applications are verified by staff only — never visible to other users.</span></span></li>
+            <li class="flex gap-3"><span class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0"><i data-lucide="file-lock" class="w-4 h-4 text-kasi-gold-light"></i></span><span><strong>Leases stored with audit trail.</strong> <span class="text-white/70">Every rental agreement is timestamped, tamper-evident and downloadable by both parties.</span></span></li>
+            <li class="flex gap-3"><span class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0"><i data-lucide="eye-off" class="w-4 h-4 text-kasi-gold-light"></i></span><span><strong>Numbers &amp; addresses masked.</strong> <span class="text-white/70">Chat in-app until YOU choose to share. Exact stand numbers unlock only after mutual consent.</span></span></li>
+            <li class="flex gap-3"><span class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0"><i data-lucide="trash-2" class="w-4 h-4 text-kasi-gold-light"></i></span><span><strong>Delete anytime.</strong> <span class="text-white/70">Request full data deletion via <em>privacy@kasirooms.co.za</em> — honoured within 21 days per POPIA §24.</span></span></li>
+          </ul>
+        </div>
+        <div class="bg-white text-kasi-purple-950 rounded-3xl p-7 shadow-pop">
+          <p class="font-display font-extrabold text-xl flex items-center gap-2"><i data-lucide="lock-keyhole" class="w-5 h-5 text-kasi-gold-dark"></i>Our security promise</p>
+          <div class="mt-5 space-y-4">
+            <div class="flex items-center justify-between bg-kasi-cream rounded-2xl px-4 py-3 border border-kasi-purple-100"><span class="font-bold text-sm flex items-center gap-2"><i data-lucide="server" class="w-4 h-4 text-kasi-purple-700"></i>Data hosted in SA (JHB)</span><span class="text-green-700 font-extrabold text-sm">✓ Active</span></div>
+            <div class="flex items-center justify-between bg-kasi-cream rounded-2xl px-4 py-3 border border-kasi-purple-100"><span class="font-bold text-sm flex items-center gap-2"><i data-lucide="key-square" class="w-4 h-4 text-kasi-purple-700"></i>256-bit encryption</span><span class="text-green-700 font-extrabold text-sm">✓ Active</span></div>
+            <div class="flex items-center justify-between bg-kasi-cream rounded-2xl px-4 py-3 border border-kasi-purple-100"><span class="font-bold text-sm flex items-center gap-2"><i data-lucide="user-check" class="w-4 h-4 text-kasi-purple-700"></i>Manual ID verification</span><span class="text-green-700 font-extrabold text-sm">✓ Active</span></div>
+            <div class="flex items-center justify-between bg-kasi-cream rounded-2xl px-4 py-3 border border-kasi-purple-100"><span class="font-bold text-sm flex items-center gap-2"><i data-lucide="siren" class="w-4 h-4 text-kasi-purple-700"></i>Scam-report button</span><span class="text-green-700 font-extrabold text-sm">✓ 24/7</span></div>
+          </div>
+          <a href="#directory" class="mt-6 flex items-center justify-center gap-2 w-full bg-kasi-purple-900 hover:bg-kasi-purple-700 text-white font-bold px-6 py-3.5 rounded-2xl transition"><i data-lucide="shield" class="w-5 h-5 text-kasi-gold-light"></i>Browse safe listings</a>
+          <p class="mt-3 text-center text-xs text-gray-400 font-semibold">Information Officer: privacy@kasirooms.co.za · PAIA manual available on request</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ TESTIMONIALS ═══════════ -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20">
+    <div class="text-center reveal">
+      <p class="text-xs font-bold uppercase tracking-[0.2em] text-kasi-gold-dark">Loved across Mzansi</p>
+      <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-kasi-purple-900 tracking-tight">Tenants &amp; landlords trust us</h2>
+    </div>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <figure class="reveal bg-white rounded-3xl p-6 shadow-card border border-kasi-purple-100/60">
+        <div class="flex gap-1 text-kasi-gold">★★★★★</div>
+        <blockquote class="mt-3 text-[15px] text-gray-600 leading-relaxed">"Found a backroom in Orlando in 2 days. The chat kept my number private until I was ready to view. Deposit receipt came straight to my phone."</blockquote>
+        <figcaption class="mt-4 flex items-center gap-3"><span class="w-10 h-10 rounded-full bg-kasi-purple-900 text-kasi-gold-light font-extrabold flex items-center justify-center text-sm">TN</span><span><span class="block font-extrabold text-sm">Thandi N.</span><span class="block text-xs text-gray-400 font-semibold">Tenant · Soweto</span></span></figcaption>
+      </figure>
+      <figure class="reveal bg-white rounded-3xl p-6 shadow-card border border-kasi-purple-100/60">
+        <div class="flex gap-1 text-kasi-gold">★★★★★</div>
+        <blockquote class="mt-3 text-[15px] text-gray-600 leading-relaxed">"I'm 67 and listed my Standerton cottage by myself! The form is big and clear. My municipal bill photo was enough to get verified."</blockquote>
+        <figcaption class="mt-4 flex items-center gap-3"><span class="w-10 h-10 rounded-full bg-kasi-gold text-kasi-purple-950 font-extrabold flex items-center justify-center text-sm">OM</span><span><span class="block font-extrabold text-sm">Oupa Matthews</span><span class="block text-xs text-gray-400 font-semibold">Landlord · Standerton</span></span></figcaption>
+      </figure>
+      <figure class="reveal bg-white rounded-3xl p-6 shadow-card border border-kasi-purple-100/60">
+        <div class="flex gap-1 text-kasi-gold">★★★★★</div>
+        <blockquote class="mt-3 text-[15px] text-gray-600 leading-relaxed">"As a contractor in Secunda I needed prepaid electricity and parking. Filtered in seconds on 15MB of data. Moved in the same week."</blockquote>
+        <figcaption class="mt-4 flex items-center gap-3"><span class="w-10 h-10 rounded-full bg-kasi-purple-700 text-white font-extrabold flex items-center justify-center text-sm">SK</span><span><span class="block font-extrabold text-sm">Sipho K.</span><span class="block text-xs text-gray-400 font-semibold">Tenant · Secunda</span></span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══════════ FAQ ═══════════ -->
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20">
+    <div class="text-center reveal">
+      <p class="text-xs font-bold uppercase tracking-[0.2em] text-kasi-gold-dark">Questions?</p>
+      <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-kasi-purple-900 tracking-tight">Frequently asked</h2>
+    </div>
+    <div class="mt-8 space-y-3">
+      <div class="faq-item reveal bg-white rounded-2xl border border-kasi-purple-100 shadow-card overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 font-extrabold text-left text-kasi-purple-950">Is KasiRooms really free?<i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-kasi-gold-dark shrink-0"></i></button>
+        <p class="faq-answer px-6 pb-5 text-sm text-gray-500 leading-relaxed">Yes. Listing a room and searching are 100% free. We charge landlords a small optional R99 fee only if they want their room "Boosted" to the top for 30 days. No agent commission, ever.</p>
+      </div>
+      <div class="faq-item reveal bg-white rounded-2xl border border-kasi-purple-100 shadow-card overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 font-extrabold text-left text-kasi-purple-950">How much data does it use?<i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-kasi-gold-dark shrink-0"></i></button>
+        <p class="faq-answer px-6 pb-5 text-sm text-gray-500 leading-relaxed">Under 500KB for the full homepage — about the same as 2 WhatsApp photos. Turn on <strong>Data Saver</strong> in the top bar to pause images and browse on less than 100KB.</p>
+      </div>
+      <div class="faq-item reveal bg-white rounded-2xl border border-kasi-purple-100 shadow-card overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 font-extrabold text-left text-kasi-purple-950">How do I know a listing isn't a scam?<i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-kasi-gold-dark shrink-0"></i></button>
+        <p class="faq-answer px-6 pb-5 text-sm text-gray-500 leading-relaxed">Look for the green <strong>✓ Verified</strong> badge — it means we've checked the landlord's SA ID + municipal bill. Never pay before viewing, and always pay deposit via EFT with the lease as reference so there's proof.</p>
+      </div>
+      <div class="faq-item reveal bg-white rounded-2xl border border-kasi-purple-100 shadow-card overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 font-extrabold text-left text-kasi-purple-950">Do you share my ID or phone number?<i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-kasi-gold-dark shrink-0"></i></button>
+        <p class="faq-answer px-6 pb-5 text-sm text-gray-500 leading-relaxed">Never. Under POPIA, your ID, documents and number are visible only to our verification team. In-app chat keeps both sides anonymous until you mutually agree to share contacts.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FINAL CTA ═══════════ -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <div class="reveal relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-kasi-purple-950 via-kasi-purple-900 to-kasi-purple-800 p-8 sm:p-12 text-center text-white shadow-pop border border-kasi-gold/30">
+      <div class="absolute inset-0 hero-pattern opacity-30"></div>
+      <div class="relative">
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Your next home — or your next income — <span class="gold-text-gradient">starts here.</span></h2>
+        <p class="mt-3 text-white/70 max-w-xl mx-auto">Join 12,400+ South Africans earning and living better with KasiRooms. Free forever to browse &amp; list.</p>
+        <div class="mt-7 flex flex-col sm:flex-row justify-center gap-3">
+          <a href="#find" class="inline-flex items-center justify-center gap-2 bg-kasi-gold hover:bg-kasi-gold-light text-kasi-purple-950 font-extrabold px-8 py-4 rounded-2xl shadow-gold hover:-translate-y-0.5 transition"><i data-lucide="search" class="w-5 h-5"></i>Find a Room</a>
+          <a href="#list" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-extrabold px-8 py-4 rounded-2xl transition"><i data-lucide="house-plus" class="w-5 h-5 text-kasi-gold-light"></i>List Your Room — FREE</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="bg-kasi-purple-950 text-white border-t border-kasi-gold/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div>
+        <p class="flex items-center gap-2.5">
+          <span class="w-10 h-10 rounded-xl bg-kasi-gold flex items-center justify-center"><i data-lucide="house" class="w-5 h-5 text-kasi-purple-950"></i></span>
+          <span class="font-display font-extrabold text-xl">Kasi<span class="text-kasi-gold-light">Rooms</span></span>
+        </p>
+        <p class="mt-4 text-sm text-white/60 leading-relaxed">Mzansi's low-data backroom marketplace. Verified rooms. Private chat. POPIA-safe by design.</p>
+        <p class="mt-4 inline-flex items-center gap-2 text-xs font-bold bg-white/10 rounded-full px-3.5 py-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-kasi-gold-light"></i>POPIA Compliant · Reg 2024/123456/07</p>
+      </div>
+      <div>
+        <p class="font-extrabold text-sm uppercase tracking-wider text-kasi-gold-light">Explore</p>
+        <ul class="mt-4 space-y-2.5 text-sm font-semibold text-white/75">
+          <li><a href="#find" class="hover:text-kasi-gold-light transition">Find a Room</a></li>
+          <li><a href="#list" class="hover:text-kasi-gold-light transition">List Your Room</a></li>
+          <li><a href="#how" class="hover:text-kasi-gold-light transition">How it Works</a></li>
+          <li><a href="#security" class="hover:text-kasi-gold-light transition">Trust &amp; Safety</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-extrabold text-sm uppercase tracking-wider text-kasi-gold-light">Popular townships</p>
+        <ul class="mt-4 space-y-2.5 text-sm font-semibold text-white/75">
+          <li><button class="quick-suburb hover:text-kasi-gold-light transition" data-suburb="Soweto">Backrooms in Soweto</button></li>
+          <li><button class="quick-suburb hover:text-kasi-gold-light transition" data-suburb="Standerton">Rooms in Standerton</button></li>
+          <li><button class="quick-suburb hover:text-kasi-gold-light transition" data-suburb="Secunda">Flatlets in Secunda</button></li>
+          <li><button class="quick-suburb hover:text-kasi-gold-light transition" data-suburb="Alexandra">Rooms in Alexandra</button></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-extrabold text-sm uppercase tracking-wider text-kasi-gold-light">Contact</p>
+        <ul class="mt-4 space-y-2.5 text-sm font-semibold text-white/75">
+          <li class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-kasi-gold-light"></i>087 123 4567</li>
+          <li class="flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-kasi-gold-light"></i>hello@kasirooms.co.za</li>
+          <li class="flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4 text-kasi-gold-light"></i>privacy@kasirooms.co.za</li>
+          <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-kasi-gold-light"></i>Mon–Sat · 8am–5pm</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/50 font-semibold">
+        <p>© <span id="year">2026</span> KasiRooms (Pty) Ltd · Made with pride in South Africa 🇿🇦</p>
+        <p class="flex gap-4"><a href="#security" class="hover:text-kasi-gold-light transition">Privacy &amp; POPIA</a><span>·</span><a href="#security" class="hover:text-kasi-gold-light transition">PAIA Manual</a><span>·</span><a href="#how" class="hover:text-kasi-gold-light transition">House Rules</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════ IN-APP MESSAGING BOX (popup, bottom corner) ═══════════ -->
+  <button id="chatFab" aria-label="Open secure chat"
+    class="fixed bottom-5 right-5 z-[60] w-15 h-15 p-4 rounded-2xl bg-gradient-to-br from-kasi-purple-900 to-kasi-purple-700 text-white shadow-pop border border-kasi-gold/50 hover:-translate-y-1 transition">
+    <span class="relative block">
+      <i data-lucide="messages-square" class="w-7 h-7 text-kasi-gold-light"></i>
+      <span id="chatUnread" class="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-[11px] font-extrabold flex items-center justify-center border-2 border-white">2</span>
+    </span>
+  </button>
+
+  <div id="chatPanel" class="chat-hidden fixed bottom-[92px] right-4 sm:right-5 z-[60] w-[calc(100vw-2rem)] max-w-sm bg-white rounded-3xl shadow-pop border border-kasi-purple-100 overflow-hidden flex flex-col" role="dialog" aria-label="Secure in-app chat demo">
+    <div class="bg-gradient-to-r from-kasi-purple-950 to-kasi-purple-800 px-5 py-4 flex items-center gap-3">
+      <span class="w-10 h-10 rounded-full bg-kasi-gold font-extrabold text-kasi-purple-950 flex items-center justify-center text-sm">MD</span>
+      <div class="flex-1 min-w-0">
+        <p id="chatRoomTitle" class="font-extrabold text-white text-sm truncate">Sunny Backroom — Soweto</p>
+        <p class="text-[11px] text-kasi-gold-light font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>Landlord online · Numbers hidden 🔒</p>
+      </div>
+      <button id="chatClose" aria-label="Close chat" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition"><i data-lucide="x" class="w-4 h-4 text-white"></i></button>
+    </div>
+
+    <div class="px-4 py-2.5 bg-kasi-gold-pale border-b border-kasi-gold/30 flex items-center gap-2 text-[11px] font-bold text-kasi-gold-dark">
+      <i data-lucide="shield-check" class="w-4 h-4"></i>POPIA-safe demo: no cell numbers are exchanged here.
+    </div>
+
+    <div id="chatMessages" class="h-64 overflow-y-auto px-4 py-4 space-y-3 bg-kasi-cream text-sm">
+      <div class="flex gap-2">
+        <div class="max-w-[80%] bg-white border border-kasi-purple-100 rounded-2xl rounded-tl-md px-3.5 py-2.5 shadow-sm">
+          <p class="font-medium text-gray-700">Sanibonani! 👋 Yes the room in Orlando is still available for 1 Oct. Are you working nearby?</p>
+          <p class="text-[10px] text-gray-400 mt-1 font-semibold">Maria (landlord) · 09:41</p>
+        </div>
+      </div>
+      <div class="flex gap-2 justify-end">
+        <div class="max-w-[80%] bg-kasi-purple-900 text-white rounded-2xl rounded-tr-md px-3.5 py-2.5 shadow-sm">
+          <p class="font-medium">Yebo, I work in JHB CBD. Is the shower private and is there prepaid electricity?</p>
+          <p class="text-[10px] text-white/60 mt-1 font-semibold">You · 09:44 ✓✓</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-3 pt-2 flex gap-2 overflow-x-auto bg-white">
+      <button class="quick-reply shrink-0 text-xs font-bold bg-kasi-purple-50 hover:bg-kasi-purple-100 text-kasi-purple-900 rounded-full px-3.5 py-1.5 transition">Is it still available?</button>
+      <button class="quick-reply shrink-0 text-xs font-bold bg-kasi-purple-50 hover:bg-kasi-purple-100 text-kasi-purple-900 rounded-full px-3.5 py-1.5 transition">Can I view on Saturday?</button>
+      <button class="quick-reply shrink-0 text-xs font-bold bg-kasi-purple-50 hover:bg-kasi-purple-100 text-kasi-purple-900 rounded-full px-3.5 py-1.5 transition">What's the deposit?</button>
+    </div>
+
+    <form id="chatForm" class="p-3 bg-white flex items-center gap-2">
+      <input id="chatInput" type="text" placeholder="Type a message… (numbers stay hidden)" autocomplete="off"
+        class="flex-1 rounded-xl border-2 border-gray-200 focus:border-kasi-gold focus:ring-2 focus:ring-kasi-gold/30 px-4 py-2.5 text-sm font-medium outline-none transition placeholder:text-gray-400" />
+      <button type="submit" aria-label="Send message" class="w-11 h-11 shrink-0 rounded-xl bg-kasi-purple-900 hover:bg-kasi-purple-700 flex items-center justify-center transition shadow-card">
+        <i data-lucide="send" class="w-5 h-5 text-kasi-gold-light"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Toasts -->
+  <div id="toastWrap" class="fixed bottom-5 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-24 sm:bottom-6 z-[70] flex flex-col gap-2 items-center sm:items-end pointer-events-none px-4 w-full sm:w-auto"></div>
+
+  <!-- ═══════════ VANILLA JS: tabs, filter, chat, forms ═══════════ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---------- Helpers ---------- */
+      const $ = (sel, ctx) => (ctx || document).querySelector(sel);
+      const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
+      const timeNow = () => new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' });
+
+      function toast(msg, icon) {
+        const wrap = $('#toastWrap');
+        const el = document.createElement('div');
+        el.className = 'toast pointer-events-auto flex items-center gap-2.5 bg-kasi-purple-950 text-white text-sm font-bold pl-4 pr-5 py-3 rounded-2xl shadow-pop border border-kasi-gold/40 max-w-md';
+        el.innerHTML = '<i data-lucide="' + (icon || 'check-circle-2') + '" class="w-5 h-5 text-kasi-gold-light shrink-0"></i><span>' + msg + '</span>';
+        wrap.appendChild(el);
+        if (window.lucide) lucide.createIcons();
+        setTimeout(() => { el.style.transition = 'all .4s ease'; el.style.opacity = '0'; el.style.transform = 'translateY(8px)'; setTimeout(() => el.remove(), 400); }, 3400);
+      }
+
+      /* ---------- Lucide icons ---------- */
+      function initIcons() { if (window.lucide) lucide.createIcons(); }
+      if (document.readyState === 'complete') initIcons();
+      else window.addEventListener('load', initIcons);
+      // Fallback if defer hasn't executed yet
+      setTimeout(initIcons, 800);
+
+      /* ---------- Year ---------- */
+      $('#year').textContent = new Date().getFullYear();
+
+      /* ---------- Sticky nav shadow ---------- */
+      const nav = $('#siteNav');
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('shadow-card', window.scrollY > 8);
+      }, { passive: true });
+
+      /* ---------- Mobile menu ---------- */
+      const menuBtn = $('#mobileMenuBtn'), menu = $('#mobileMenu');
+      const iconOpen = $('#mobileMenuIconOpen'), iconClose = $('#mobileMenuIconClose');
+      menuBtn.addEventListener('click', () => {
+        const open = menu.classList.toggle('hidden') === false;
+        menuBtn.setAttribute('aria-expanded', open);
+        iconOpen.classList.toggle('hidden', open);
+        iconClose.classList.toggle('hidden', !open);
+      });
+      $$('.mobile-link').forEach(a => a.addEventListener('click', () => {
+        menu.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        iconOpen.classList.remove('hidden'); iconClose.classList.add('hidden');
+      }));
+
+      /* ---------- TAB SWITCHING SYSTEM ---------- */
+      const tabTenantBtn = $('#tabTenantBtn'), tabLandlordBtn = $('#tabLandlordBtn');
+      const panelTenant = $('#panel-tenant'), panelLandlord = $('#panel-landlord');
+
+      function switchTab(which) {
+        const toTenant = which === 'tenant';
+        tabTenantBtn.classList.toggle('active', toTenant);
+        tabLandlordBtn.classList.toggle('active', !toTenant);
+        tabTenantBtn.setAttribute('aria-selected', toTenant);
+        tabLandlordBtn.setAttribute('aria-selected', !toTenant);
+        panelTenant.classList.toggle('hidden', !toTenant);
+        panelLandlord.classList.toggle('hidden', toTenant);
+        if (window.lucide) lucide.createIcons();
+      }
+      tabTenantBtn.addEventListener('click', () => switchTab('tenant'));
+      tabLandlordBtn.addEventListener('click', () => switchTab('landlord'));
+
+      // Deep links: #list opens landlord tab, #find opens tenant tab
+      function handleHash() {
+        const h = window.location.hash;
+        if (h === '#list') switchTab('landlord');
+        else if (h === '#find' || h === '#directory') switchTab('tenant');
+      }
+      window.addEventListener('hashchange', handleHash);
+      handleHash();
+
+      /* ---------- MOCK FILTER MECHANISM ---------- */
+      const locInput = $('#searchLocation'), rentSel = $('#searchMaxRent'), amenSel = $('#searchAmenity');
+      const cards = $$('.listing-card');
+      const resultCount = $('#resultCount'), noResults = $('#noResults'), noResultsText = $('#noResultsText');
+
+      function filterListings(announce) {
+        const q = (locInput.value || '').trim().toLowerCase();
+        const maxRent = rentSel.value ? parseInt(rentSel.value, 10) : null;
+        const amen = (amenSel.value || '').toLowerCase();
+        let shown = 0;
+
+        cards.forEach(card => {
+          const loc = card.dataset.location.toLowerCase();
+          const price = parseInt(card.dataset.price, 10);
+          const amens = card.dataset.amenities.toLowerCase();
+          const matchLoc = !q || loc.includes(q);
+          const matchRent = maxRent === null || price <= maxRent;
+          const matchAmen = !amen || amens.includes(amen);
+          const show = matchLoc && matchRent && matchAmen;
+          card.classList.toggle('hidden-card', !show);
+          if (show) shown++;
+        });
+
+        resultCount.textContent = shown === 1
+          ? 'Showing 1 verified listing'
+          : 'Showing ' + shown + ' verified listings';
+        noResults.classList.toggle('hidden', shown !== 0);
+        if (shown === 0) {
+          const bits = [];
+          if (q) bits.push('“' + locInput.value.trim() + '”');
+          if (maxRent) bits.push('under R' + maxRent.toLocaleString('en-ZA'));
+          noResultsText.textContent = 'Nothing found' + (bits.length ? ' for ' + bits.join(' ') : '') + '. Try a nearby township or increase your max rent.';
+        }
+        if (announce && shown > 0) toast('Found ' + shown + ' room' + (shown === 1 ? '' : 's') + ' matching your search', 'search-check');
+      }
+
+      ['input', 'change'].forEach(evt => {
+        locInput.addEventListener(evt, () => { switchTab('tenant'); filterListings(false); });
+        rentSel.addEventListener(evt, () => { switchTab('tenant'); filterListings(false); });
+        amenSel.addEventListener(evt, () => { switchTab('tenant'); filterListings(false); });
+      });
+      $('#searchBar').addEventListener('submit', e => {
+        e.preventDefault();
+        switchTab('tenant');
+        filterListings(true);
+        document.getElementById('find').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      // Quick suburb pills (hero + footer)
+      $$('.quick-suburb').forEach(btn => btn.addEventListener('click', () => {
+        locInput.value = btn.dataset.suburb;
+        rentSel.value = ''; amenSel.value = '';
+        switchTab('tenant');
+        filterListings(true);
+        document.getElementById('find').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }));
+
+      function resetFilters() {
+        locInput.value = ''; rentSel.value = ''; amenSel.value = '';
+        filterListings(false);
+        toast('Filters cleared — showing all rooms', 'rotate-ccw');
+      }
+      $('#resetFilters').addEventListener('click', resetFilters);
+      $('#clearSearchBtn').addEventListener('click', resetFilters);
+
+      /* ---------- Listing buttons: view + message ---------- */
+      $$('.view-room-btn').forEach(btn => btn.addEventListener('click', () => {
+        toast('Opening details: ' + btn.dataset.room + ' (demo)', 'eye');
+      }));
+      $$('.message-btn').forEach(btn => btn.addEventListener('click', () => {
+        $('#chatRoomTitle').textContent = btn.dataset.room;
+        openChat();
+        toast('Secure chat opened — numbers stay hidden', 'messages-square');
+      }));
+
+      /* ---------- IN-APP MESSAGING BOX ---------- */
+      const chatFab = $('#chatFab'), chatPanel = $('#chatPanel'), chatClose = $('#chatClose');
+      const chatForm = $('#chatForm'), chatInput = $('#chatInput'), chatMessages = $('#chatMessages');
+      const chatUnread = $('#chatUnread');
+      let chatOpened = false;
+
+      // Mask any phone-number-like sequences (demo of POPIA masking)
+      function maskNumbers(text) {
+        return text.replace(/(\+?27|0)\s?\d{2}\s?\d{3}\s?\d{4}/g, '••• ••• ••••');
+      }
+      function scrollChat() { chatMessages.scrollTop = chatMessages.scrollHeight; }
+
+      function addMsg(text, fromLandlord) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2' + (fromLandlord ? '' : ' justify-end');
+        const safe = maskNumbers(text).replace(/</g, '&lt;');
+        row.innerHTML = fromLandlord
+          ? '<div class="max-w-[80%] bg-white border border-kasi-purple-100 rounded-2xl rounded-tl-md px-3.5 py-2.5 shadow-sm"><p class="font-medium text-gray-700">' + safe + '</p><p class="text-[10px] text-gray-400 mt-1 font-semibold">Maria (landlord) · ' + timeNow() + '</p></div>'
+          : '<div class="max-w-[80%] bg-kasi-purple-900 text-white rounded-2xl rounded-tr-md px-3.5 py-2.5 shadow-sm"><p class="font-medium">' + safe + '</p><p class="text-[10px] text-white/60 mt-1 font-semibold">You · ' + timeNow() + ' ✓✓</p></div>';
+        chatMessages.appendChild(row);
+        scrollChat();
+      }
+
+      function addTyping() {
+        const t = document.createElement('div');
+        t.id = 'typingRow';
+        t.className = 'flex gap-2';
+        t.innerHTML = '<div class="bg-white border border-kasi-purple-100 rounded-2xl rounded-tl-md px-4 py-3 shadow-sm text-gray-400 font-extrabold tracking-widest">•••</div>';
+        chatMessages.appendChild(t);
+        scrollChat();
+      }
+      function removeTyping() { const t = $('#typingRow'); if (t) t.remove(); }
+
+      const landlordReplies = [
+        'Sharp! 🙏 Viewing is available Saturday 10am–1pm. Shall I book you a slot?',
+        'Deposit is one month\'s rent. You\'ll get a receipt + signed lease before paying anything.',
+        'Yes — prepaid meter, private shower and secure gate with remote. Water is included.',
+        'No problem, ask anything! Exact address is shared once we agree on a viewing. 🔒'
+      ];
+      let replyIdx = 0;
+      function landlordAutoReply() {
+        addTyping();
+        setTimeout(() => {
+          removeTyping();
+          addMsg(landlordReplies[replyIdx % landlordReplies.length], true);
+          replyIdx++;
+        }, 1200);
+      }
+
+      function openChat() {
+        chatPanel.classList.remove('chat-hidden');
+        chatUnread.style.display = 'none';
+        chatOpened = true;
+        scrollChat();
+        setTimeout(() => chatInput.focus(), 250);
+      }
+      function closeChat() { chatPanel.classList.add('chat-hidden'); }
+
+      chatFab.addEventListener('click', () => {
+        chatPanel.classList.contains('chat-hidden') ? openChat() : closeChat();
+      });
+      chatClose.addEventListener('click', closeChat);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeChat(); });
+
+      chatForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
+        // Warn (and mask) if user tries to share a number
+        if (/(\+?27|0)\s?\d{2}\s?\d{3}\s?\d{4}/.test(text)) {
+          toast('For your safety, phone numbers are masked in chat', 'shield-alert');
+        }
+        addMsg(text, false);
+        chatInput.value = '';
+        landlordAutoReply();
+      });
+      $$('.quick-reply').forEach(b => b.addEventListener('click', () => {
+        addMsg(b.textContent.trim(), false);
+        landlordAutoReply();
+      }));
+
+      // Gentle nudge: peek chat open once after 12s (demo purposes)
+      setTimeout(() => {
+        if (!chatOpened && !sessionStorage.getItem('kasi_chat_nudged')) {
+          sessionStorage.setItem('kasi_chat_nudged', '1');
+          toast('💬 New message from a landlord — tap the chat button', 'messages-square');
+        }
+      }, 12000);
+
+      /* ---------- DATA SAVER (low-data browsing) ---------- */
+      const saverBtn = $('#dataSaverToggle'), saverLabel = $('#dataSaverLabel');
+      saverBtn.addEventListener('click', () => {
+        const on = document.body.classList.toggle('data-saver');
+        saverBtn.setAttribute('aria-pressed', on);
+        saverLabel.textContent = on ? 'Data Saver: On' : 'Data Saver: Off';
+        toast(on ? 'Data Saver ON — images paused, ~85% less data' : 'Data Saver OFF — images restored', 'leaf');
+      });
+
+      /* ---------- LANDLORD FORM ---------- */
+      const form = $('#landlordForm');
+      const preview = $('#listingPreview');
+
+      function money(n) {
+        n = parseInt(n, 10);
+        return isNaN(n) ? '—' : 'R' + n.toLocaleString('en-ZA');
+      }
+      function updatePreview() {
+        const rent = $('#rentAmount').value;
+        const type = $('#roomType').value || 'Your room type';
+        const suburb = $('#propSuburb').value.trim() || 'Your suburb';
+        const desc = $('#roomDesc').value.trim() || 'Your description will appear here…';
+        const amens = $$('input[name="amen"]:checked').map(c => c.value);
+        $('#previewPrice').innerHTML = money(rent) + ' <span class="text-sm font-semibold text-gray-400">/ month</span>';
+        $('#previewTitle').textContent = type;
+        $('#previewLoc').innerHTML = '<i data-lucide="map-pin" class="w-3.5 h-3.5 inline"></i> ' + suburb.replace(/</g, '&lt;');
+        $('#previewDesc').textContent = desc;
+        $('#previewAmens').innerHTML = amens.map(a =>
+          '<span class="text-xs font-bold bg-kasi-purple-50 text-kasi-purple-800 rounded-full px-3 py-1">' + a + '</span>'
+        ).join('');
+        if (window.lucide) lucide.createIcons();
+      }
+      ['rentAmount', 'roomType', 'propSuburb', 'roomDesc'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updatePreview);
+        document.getElementById(id).addEventListener('change', updatePreview);
+      });
+      $$('input[name="amen"]').forEach(c => c.addEventListener('change', updatePreview));
+
+      $('#previewListingBtn').addEventListener('click', () => {
+        updatePreview();
+        preview.classList.remove('hidden');
+        preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        toast('Preview updated — this is what tenants see', 'eye');
+      });
+
+      // File input feedback
+      [['docBill', 'Municipal bill attached'], ['docId', 'ID document attached']].forEach(([id, label]) => {
+        document.getElementById(id).addEventListener('change', function () {
+          if (this.files && this.files.length) toast('✓ ' + label + ': ' + this.files[0].name, 'file-check');
+        });
+      });
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const name = $('#ownerName').value.trim();
+        const phone = $('#ownerPhone').value.trim();
+        const suburb = $('#propSuburb').value.trim();
+        const type = $('#roomType').value;
+        const rent = $('#rentAmount').value;
+        const agreed = $('#popiaAgree').checked;
+
+        if (!name || !phone || !suburb || !type || !rent) {
+          toast('Please fill the * required fields (name, number, suburb, type, rent)', 'alert-triangle');
+          return;
+        }
+        if (!/^0\d{9}$/.test(phone.replace(/\s/g, ''))) {
+          toast('Cell number should be 10 digits starting with 0', 'alert-triangle');
+          return;
+        }
+        if (!agreed) {
+          toast('Please tick the POPIA consent box to continue', 'alert-triangle');
+          return;
+        }
+        toast('🎉 Sharp, ' + name.split(' ')[0] + '! Your ' + type + ' in ' + suburb + ' (' + money(rent) + '/mo) was submitted for FREE verification.', 'badge-check');
+        form.reset();
+        updatePreview();
+      });
+
+      /* ---------- FAQ accordion ---------- */
+      $$('.faq-toggle').forEach(btn => btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const wasOpen = item.classList.contains('open');
+        $$('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      }));
+
+      /* ---------- Reveal on scroll ---------- */
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); } });
+      }, { threshold: 0.08 });
+      $$('.reveal').forEach(el => io.observe(el));
+
+    })();
+  </script>
+</body>
+</html>
